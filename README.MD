@@ -54,6 +54,8 @@ console.log(safeString);
 */
 ```
 
+[Try it](https://codesandbox.io/s/lucid-mclean-6ere1w?file=/src/exampleFromReadme.js).
+
 ## Browser support
 
 Although browser support is already over 95%, the specification for DOMParser is not yet fully established. [More details](https://caniuse.com/mdn-api_domparser_parsefromstring_html).
