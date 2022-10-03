@@ -1,0 +1,26 @@
+{
+  "name": "purify-html",
+  "version": "1.0.1",
+  "description": "A minimalistic library for sanitizing strings so that they can be safely used as HTML.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aleksandr-JS-Developer/purify-html.git"
+  },
+  "keywords": [
+    "html-sanitize",
+    "sanitize"
+  ],
+  "author": "alex-js-dev",
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
+  "bugs": {
+    "url": "https://github.com/Aleksandr-JS-Developer/purify-html/issues"
+  },
+  "homepage": "https://github.com/Aleksandr-JS-Developer/purify-html#readme"
+}
