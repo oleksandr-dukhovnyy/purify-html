@@ -1,10 +1,7 @@
 class Sanitizer {
   constructor(allowedTags = []) {
     this.allowedTags = allowedTags.reduce((acc, curr) => {
-      const name = curr.name;
-      delete curr.name;
-
-      acc[name] = curr;
+      acc[curr.name] = curr;
 
       return acc;
     }, {});
