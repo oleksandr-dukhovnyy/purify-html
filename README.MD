@@ -8,8 +8,16 @@ The main idea is to use the browser API to parse, parse and modify the DOM.
 
 ## Install
 
+npm
+
 ```bash
 npm install purify-html
+```
+
+yarn
+
+```bash
+yarn add purify-html
 ```
 
 ## Usage
