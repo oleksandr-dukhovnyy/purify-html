@@ -1,26 +1,47 @@
 {
   "name": "purify-html",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "A minimalistic library for sanitizing strings so that they can be safely used as HTML.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Aleksandr-JS-Developer/purify-html.git"
   },
+  "main": "./lib/index.esm.js",
   "keywords": [
     "html-sanitize",
     "sanitize"
   ],
-  "author": "alex-js-dev",
-  "license": "MIT",
-  "files": [
-    "index.js"
-  ],
   "bugs": {
     "url": "https://github.com/Aleksandr-JS-Developer/purify-html/issues"
   },
-  "homepage": "https://github.com/Aleksandr-JS-Developer/purify-html#readme"
+  "homepage": "https://github.com/Aleksandr-JS-Developer/purify-html#readme",
+  "scripts": {
+    "dev": "webpack --mode=development --watch",
+    "build": "webpack --mode=production",
+    "prettier": "npx prettier --write .",
+    "prettier-watch": "onchange \"**/*\" -- prettier --write --ignore-unknown {{changed}}",
+    "test-watch": "jest --watchAll",
+    "test": "jest",
+    "path": "npm version patch",
+    "minor": "npm version minor",
+    "major": "npm version major"
+  },
+  "author": "alex-js-dev",
+  "license": "MIT",
+  "dependencies": {
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-modules-commonjs": "^7.19.6",
+    "@babel/plugin-transform-runtime": "^7.19.6",
+    "@babel/preset-env": "^7.20.2",
+    "babel-jest": "^29.3.1",
+    "babel-loader": "^9.1.0",
+    "core-js": "^3.26.0",
+    "jest": "^29.3.1",
+    "jest-environment-jsdom": "^29.3.1",
+    "onchange": "^7.1.0",
+    "prettier": "2.7.1"
+  }
 }

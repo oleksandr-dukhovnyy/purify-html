@@ -1,0 +1,9 @@
+coverage/
+.prettierignore
+.prettierrc.json
+browserslist
+.babelrc
+jsconfig.json
+tests/
+webpack.config.js
+jest.config.js
