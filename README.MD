@@ -109,4 +109,4 @@ console.log(safeString);
 
 ## Browser support
 
-Although browser support is already over 95%, the specification for DOMParser is not yet fully established. [More details](https://caniuse.com/mdn-api_domparser_parsefromstring_html).
+Although browser support is already over 97%, the specification for DOMParser is not yet fully established. [More details](https://caniuse.com/mdn-api_domparser_parsefromstring_html).
