@@ -4,9 +4,21 @@
 ![GitHub issues](https://img.shields.io/github/issues-raw/Aleksandr-JS-Developer/purify-html?style=flat-square)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/Aleksandr-JS-Developer/purify-html?style=flat-square)
 
-A minimalistic library for sanitizing strings so that they can be safely used as HTML.
+A minimalist client library for cleaning up strings so they can be safely used as HTML.
 
 The main idea is to use the browser API to parse, parse and modify the DOM.
+
+The basic idea is to use the browser API to parse and modify the DOM.
+Thus, several goals are achieved at once:
+
+- Actual native parser. The library uses the HTML parser that the browser will use to parse the HTML. Thus, there will be no situation when the payload will work in the browser, but does not work in the parser that the library uses.
+- Huge bundle size savings. Since the HTML standard is quite extensive, a quality parser is a rather heavy program that can be easily dispensed with.
+- Speed of work. The parser inside DOMParser is native, i.e. written not in JavaScript, but in high-performance C++ (for example, in v8). Thus, parsing is faster than any JavaScript library.
+- High % browser support. Although DOMParser has extensive support, you can use a polyfill or even your own parser. See [parserSetup](#setparser) for details.
+
+As a result, parsing with DOMParser is more reliable, faster and does not require precious kilobytes of space in the build.
+
+---
 
 ## Install
 
@@ -22,10 +34,20 @@ yarn
 yarn add purify-html
 ```
 
+CDN
+
+```html
+<script src="https://unpkg.com/purify-html@latest/dist/index.browser.js"></script>
+```
+
+---
+
 ## Usage
 
+**via bundler:**
+
 ```javascript
-import Sanitizer from 'purify-html';
+import PurifyHTML from 'purify-html';
 
 const allowedTags = [
   // only string
@@ -61,7 +83,7 @@ const allowedTags = [
   },
 ];
 
-const sanitizer = new Sanitizer(allowedTags);
+const sanitizer = new PurifyHTML(allowedTags);
 
 const dangerString = `
   <script> fetch('google.com', { mode: 'no-cors' }) </script>
@@ -96,6 +118,53 @@ console.log(safeString);
 
 [Try it](https://codesandbox.io/s/lucid-mclean-6ere1w?file=/src/exampleFromReadme.js).
 
+### Via CDN
+
+```html
+<!-- ... -->
+<head>
+  <!-- ... -->
+  <script src="https://unpkg.com/purify-html@latest/dist/index.browser.js"></script>
+</head>
+
+<!-- ... -->
+<script>
+  const { sanitizer, setParser } = PurifyHTML;
+
+  setParser(/* ... */);
+  sanitizer.sanitize(/* ... */);
+</script>
+<!-- ... -->
+```
+
+Usage for the browser is slightly different from usage with faucets. This is bad, but it had to be done in order not to clog the global scope.
+
+---
+
+## setParser
+
+In some cases, you may want to be able to use your parser instead of DOMParser.
+
+This can be done like this:
+
+```javascript
+import PurifyHTML, { setParser } from 'purify-html';
+
+setParser({
+  parse(HTMLString) {
+    // returns HTMLElement
+  },
+  stringify(ParsedHTML) {
+    // returns string
+  },
+});
+
+const sanitizer = new PurifyHTML();
+// ...
+```
+
+---
+
 ## Attributes checks preset list
 
 - `%correct-link%` - only currect link
@@ -106,6 +175,8 @@ console.log(safeString);
 - `%http-link-without-search-params%` - delete all search params and force https protocol
 - `%same-https-origin%` - only link that lead to the same origin that is currently in `self.location.origin`. + force https protocol
 - `%same-http-origin%` - only link that lead to the same origin that is currently in `self.location.origin`. + force http protocol
+
+---
 
 ## Browser support
 
