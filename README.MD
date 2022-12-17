@@ -129,9 +129,9 @@ console.log(safeString);
 
 <!-- ... -->
 <script>
-  const { sanitizer, setParser } = PurifyHTML;
+  PurifyHTML.setParser(/* ... */);
+  const sanitizer = new PurifyHTML.sanitizer(/* ... */);
 
-  setParser(/* ... */);
   sanitizer.sanitize(/* ... */);
 </script>
 <!-- ... -->
