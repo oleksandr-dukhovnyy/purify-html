@@ -152,11 +152,11 @@ This can be done like this:
 import PurifyHTML, { setParser } from 'purify-html';
 
 setParser({
-  parse(HTMLString:string) {
-    // returns HTMLElement
+  parse(HTMLString:string):HTMLElement {
+    // ...
   },
-  stringify(element:HTMLElement) {
-    // returns string
+  stringify(element:HTMLElement):string {
+    // ...
   },
 });
 
