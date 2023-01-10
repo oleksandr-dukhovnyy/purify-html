@@ -164,7 +164,7 @@ const sanitizer = new PurifyHTML();
 // ...
 ```
 ---
-## why not ```document.createElement(...)```
+## Why not ```document.createElement(...)```
 
 Because by processing the string like this:
 ```javascript
