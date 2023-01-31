@@ -43,7 +43,72 @@ CDN
 
 ---
 
-## Usage
+## API
+
+```javascript
+import PurifyHTML, { setParser } from 'purify-html';
+
+const sanitizer = new PurifyHTML(options);
+```
+
+<br>
+
+### function setParser
+
+```javascript
+setParser({
+  parse(str: string): HTMLElement
+  stringify(elem: HTMLElement): string
+}): void
+```
+
+See [here](#setParser) for details.
+
+<br>
+
+### sanitizer: `object`
+
+#### `sanitize(string): string`
+
+Performs string cleanup according to the rules passed in `options`.
+
+<br>
+
+#### `toHTMLEntities(string): string`
+
+Coerces a string to HTML entities. Very similar to escaping, but for the HTML interpreter.
+In HTML, such characters will be rendered "as is".
+See more [here](https://www.w3schools.com/html/html_entities.asp).
+
+```javascript
+const str = '<br />';
+
+console.log(
+  sanitizer.toHTMLEntities(str); // => '&#60;&#98;&#114;&#32;&#47;&#62;'
+);
+```
+
+---
+
+### options: `Array<string | OptionItem>`
+
+```typescript
+type OptionItem {
+  name: string,
+  // tagname
+  attributes: Array<string | AttributesItem>
+  // rules for attributes
+}
+
+type AttributesItem {
+  name: string,
+  // attribute name
+  value: string | RegExp | Array<string> | { preset: string }
+  // rules for attribute value
+}
+```
+
+## Examples
 
 **via bundler:**
 
@@ -119,6 +184,8 @@ console.log(safeString);
 
 [Try it](https://codesandbox.io/s/lucid-mclean-6ere1w?file=/src/exampleFromReadme.js).
 
+---
+
 ### Via CDN
 
 ```html
@@ -152,10 +219,10 @@ This can be done like this:
 import PurifyHTML, { setParser } from 'purify-html';
 
 setParser({
-  parse(HTMLString:string):HTMLElement {
+  parse(HTMLString: string): HTMLElement {
     // ...
   },
-  stringify(element:HTMLElement):string {
+  stringify(element: HTMLElement): string {
     // ...
   },
 });
@@ -163,17 +230,31 @@ setParser({
 const sanitizer = new PurifyHTML();
 // ...
 ```
+
+**Note!** The root element will be passed to the `stringify` function, and the CONTENT of the element will be expected as a result.
+
+```javascript
+const input = document.createElement('div');
+
+input.innerHTML = '<span>span</span>';
+
+stringify(input); // '<span>span</span>' => OK
+stringify(input); // '<div><span>span</span></div>' => WRONG
+```
+
 ---
-## Why not ```document.createElement(...)```
+
+## Why not `document.createElement(...)`
 
 Because by processing the string like this:
+
 ```javascript
-const parse = (str) => {
+const parse = str => {
   const node = document.createElement('div');
   div.innerHTML = str;
-  
+
   return div;
-}
+};
 ```
 
 In fact, this function, having received a special payload, will RUN it. The following payload will send a network request:
