@@ -7,8 +7,6 @@
 
 A minimalist client library for cleaning up strings so they can be safely used as HTML.
 
-The main idea is to use the browser API to parse and modify the DOM.
-
 The basic idea is to use the browser API to parse and modify the DOM.
 Thus, several goals are achieved at once:
 
