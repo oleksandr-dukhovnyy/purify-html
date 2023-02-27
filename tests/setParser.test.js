@@ -77,4 +77,14 @@ describe('Sanitizer', () => {
     expect(called).toEqual(false);
     expect(setUpCode).toEqual(0);
   });
+
+  test('undefined instead of parser', () => {
+    const str = 'some string';
+    const setUpCode = setParser();
+
+    const sanitizer = new Sanitizer();
+    sanitizer.sanitize(str);
+
+    expect(setUpCode).toEqual(0);
+  });
 });

@@ -31,7 +31,8 @@
     "test": "jest",
     "lint": "npx eslint lib/**",
     "lint-watch": "npx eslint lib/** --watch",
-    "lint-fix": "npx eslint lib/** --fix"
+    "lint-fix": "npx eslint lib/** --fix",
+    "prepare": "husky install"
   },
   "author": "alex-js-dev",
   "license": "MIT",
