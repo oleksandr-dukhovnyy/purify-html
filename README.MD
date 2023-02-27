@@ -7,8 +7,6 @@
 
 A minimalist client library for cleaning up strings so they can be safely used as HTML.
 
-The main idea is to use the browser API to parse and modify the DOM.
-
 The basic idea is to use the browser API to parse and modify the DOM.
 Thus, several goals are achieved at once:
 
@@ -62,7 +60,7 @@ setParser({
 }): void
 ```
 
-See [here](#setParser) for details.
+See <a href="#setParser">here</a> for details.
 
 <br>
 
@@ -71,6 +69,16 @@ See [here](#setParser) for details.
 #### `sanitize(string): string`
 
 Performs string cleanup according to the rules passed in `options`.
+
+```javascript
+import PurifyHTML, { setParser } from 'purify-html';
+
+const sanitizer = new PurifyHTML(options);
+
+const untrustedString = '...';
+
+console.log(sanitizer.sanitize(untrustedString));
+```
 
 <br>
 
@@ -84,13 +92,15 @@ See more [here](https://www.w3schools.com/html/html_entities.asp).
 const str = '<br />';
 
 console.log(
-  sanitizer.toHTMLEntities(str); // => '&#60;&#98;&#114;&#32;&#47;&#62;'
+  sanitizer.toHTMLEntities(str); // => '&#60;&#98;&#114;&#32;&#47;&#62;', displays at the page like '<br />'
 );
 ```
 
 ---
 
 ### options: `Array<string | OptionItem>`
+
+An array with rules for the sanitizer.
 
 ```typescript
 type OptionItem {
@@ -107,6 +117,24 @@ type AttributesItem {
   // rules for attribute value
 }
 ```
+
+```javascript
+import PurifyHTML, { setParser } from 'purify-html';
+
+const sanitizer = new PurifyHTML([
+ 'hr',
+ { name: 'br' },
+ { name: 'img', attributes: [{ name: 'src'}] },
+ { name: 'a', attributes: [
+  { name: 'target', value: ['_blank', '_self', '_parent', '_top'] },
+  { name: 'href', value: /^https?:\/\/*/ }
+ ]}
+]);
+```
+
+**NOTE** When using regular expressions to check for untrusted strings, don't forget to check your regular expressions for ReDoS vulnerabilities. 
+*A successful exploit of the ReDoS vulnerability is to cause the program to hang when trying to parse a specially crafted string.* <br>
+See more: https://owasp.org/www-community/attacks/Regular_expression_Denial_of_Service_-_ReDoS
 
 ## Examples
 
