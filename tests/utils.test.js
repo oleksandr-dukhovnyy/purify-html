@@ -42,7 +42,7 @@ describe('utils', () => {
 
     expect(
       links.map(([link]) => utils.safelyGetLink(link) !== null)
-    ).toMatchObject(links.map(([_, bool]) => bool));
+    ).toMatchObject(links.map(item => item[1]));
   });
 
   test('addPrefix', () => {
