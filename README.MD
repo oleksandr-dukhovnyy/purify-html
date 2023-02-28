@@ -7,6 +7,8 @@
 
 A minimalist client library for cleaning up strings so they can be safely used as HTML.
 
+[Try it! (demo at codesandbox)](https://codesandbox.io/s/purify-html-6ere1w?file=/src/index.js)
+
 The basic idea is to use the browser API to parse and modify the DOM.
 Thus, several goals are achieved at once:
 
