@@ -38,7 +38,7 @@ yarn add purify-html
 CDN
 
 ```html
-<script src="https://unpkg.com/purify-html@latest/dist/index.browser.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/purify-html/dist/index.esm.min.js"></script>
 ```
 
 ---
