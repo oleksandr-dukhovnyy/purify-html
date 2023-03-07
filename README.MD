@@ -39,6 +39,12 @@ CDN
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/purify-html/dist/index.browser.js"></script>
+
+<!-- or -->
+
+<script type="module">
+  import PurifyHTML from 'https://cdn.jsdelivr.net/npm/purify-html/+esm';
+</script>
 ```
 
 ---
@@ -124,18 +130,21 @@ type AttributesItem {
 import PurifyHTML, { setParser } from 'purify-html';
 
 const sanitizer = new PurifyHTML([
- 'hr',
- { name: 'br' },
- { name: 'img', attributes: [{ name: 'src'}] },
- { name: 'a', attributes: [
-  { name: 'target', value: ['_blank', '_self', '_parent', '_top'] },
-  { name: 'href', value: /^https?:\/\/*/ }
- ]}
+  'hr',
+  { name: 'br' },
+  { name: 'img', attributes: [{ name: 'src' }] },
+  {
+    name: 'a',
+    attributes: [
+      { name: 'target', value: ['_blank', '_self', '_parent', '_top'] },
+      { name: 'href', value: /^https?:\/\/*/ },
+    ],
+  },
 ]);
 ```
 
-**NOTE** When using regular expressions to check for untrusted strings, don't forget to check your regular expressions for ReDoS vulnerabilities. 
-*A successful exploit of the ReDoS vulnerability is to cause the program to hang when trying to parse a specially crafted string.* <br>
+**NOTE** When using regular expressions to check for untrusted strings, don't forget to check your regular expressions for ReDoS vulnerabilities.
+_A successful exploit of the ReDoS vulnerability is to cause the program to hang when trying to parse a specially crafted string._ <br>
 See more: https://owasp.org/www-community/attacks/Regular_expression_Denial_of_Service_-_ReDoS
 
 ## Examples
