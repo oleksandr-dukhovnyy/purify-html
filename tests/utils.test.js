@@ -125,4 +125,20 @@ describe('utils', () => {
       false
     );
   });
+
+  test('[deepClone]', () => {
+    delete globalThis.structuredClone;
+
+    const obj = {
+      data: {
+        deepData: {
+          key: 'value',
+        },
+      },
+    };
+
+    const clonedObj = utils.deepClone(obj);
+
+    expect(obj.data.deepData === clonedObj.data.deepData).toEqual(false);
+  });
 });
