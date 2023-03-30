@@ -1,6 +1,6 @@
 {
   "name": "purify-html",
-  "version": "1.3.4",
+  "version": "1.3.5",
   "description": "A minimalistic library for sanitizing strings so that they can be safely used as HTML.",
   "repository": {
     "type": "git",
@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/Aleksandr-JS-Developer/purify-html#readme",
   "scripts": {
+    "dev-esm-watch": "npm run dev-esm -- --watch",
+    "dev-browser-watch": "npm run dev-browser -- --watch",
     "dev-esm": "webpack --mode=development --config=./webpack.config.for-esm.js",
     "dev-browser": "webpack --mode=development --config=./webpack.config.for-browser.js",
     "dev": "npm run dev-esm && npm run dev-browser",

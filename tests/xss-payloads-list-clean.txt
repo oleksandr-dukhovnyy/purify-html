@@ -26,7 +26,7 @@ javascript:alert(1);
 
 
 
-
+<!--\x3E<img src=xxx:x onerror=javascript:alert(1)> -->
 --&gt;<!-- --->  --&gt;
 test
 test
