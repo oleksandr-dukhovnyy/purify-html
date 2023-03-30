@@ -1,1 +1,421 @@
-!function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports.PurifyHTML=t():e.PurifyHTML=t()}(globalThis,(()=>(()=>{"use strict";var e={d:(t,r)=>{for(var o in r)e.o(r,o)&&!e.o(t,o)&&Object.defineProperty(t,o,{enumerable:!0,get:r[o]})},o:(e,t)=>Object.prototype.hasOwnProperty.call(e,t),r:e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})}},t={};e.r(t),e.d(t,{default:()=>i,setParser:()=>a});const r=(()=>{const e=(t,r=0)=>{if(t._d=r,!t.children.length)return r;[...t.children].forEach((t=>e(t,r+1)))};return t=>(e(t),[...t.querySelectorAll("*")].sort(((e,t)=>t._d-e._d)))})(),o=e=>{try{return new URL(e)}catch(e){return null}},s={"%correct-link%":e=>({remove:null===o(e)}),"%http-link%"(e){const t=o(e);return{remove:null===t||"http:"!==t.protocol}},"%https-link%"(e){const t=o(e);return{remove:null===t||"https:"!==t.protocol}},"%ftp-link%"(e){const t=o(e);return{remove:null===t||"ftp:"!==t.protocol}},"%https-link-without-search-params%"(e){const t=o(e);return{remove:null===t||""!==t.search||"https:"!==t.protocol}},"%http-link-without-search-params%"(e){const t=o(e);return{remove:null===t||""!==t.search||"http:"!==t.protocol}},"%same-origin%"(e){const t=o(e);return{remove:null===t||self.location.origin!==t.origin}}};let n={parse:e=>(new DOMParser).parseFromString(e,"text/html").querySelector("body"),stringify:e=>e.innerHTML};const a=e=>e.hasOwnProperty("parse")?e.hasOwnProperty("stringify")?(n=e,1):(console.error('cannot to find method "stringify" in custom parser!',e),0):(console.error('cannot to find method "parse" in custom parser!',e),0),i=class{constructor(e=[]){self.hasOwnProperty("structuredClone")?e=structuredClone(e):(console.warn(["\n",'The "self.structuredClone" method is not supported in this browser.',"This means that you cannot use regular expressions to validate attribute content.","You might consider using a polyfill from core-js: https://github.com/zloirock/core-js#structuredclone`","\n"].join("\n")),e=JSON.parse(JSON.stringify(e))),this.allowedTags=e.reduce(((e,t)=>{switch(typeof t){case"string":e[t]=Object.assign(e[t]||{},{});break;case"object":e[t.name]=Object.assign(e[t]||{},(e=>{const t=[];return e.hasOwnProperty("attributes")||(e.attributes=[]),e.attributes.forEach((e=>{switch(typeof e){case"string":t.push({name:e});break;case"object":t.push(e)}})),e.attributes=t,e})(t))}return e}),{}),this.whiteList=Object.keys(this.allowedTags),this.sanitize.bind(this)}sanitize(e){const t=n.parse(e);return r(t).forEach((e=>{const t=e.tagName.toLowerCase();if(this.whiteList.includes(t)){const r=this.allowedTags[t];if(r.hasOwnProperty("attributes")&&r.attributes.length>0){let t=[],o=[];for(let n=0;n<e.attributes.length;n++){const a=e.attributes[n],i=r.attributes.find((e=>e.name===a.name));i?i.hasOwnProperty("value")&&("string"==typeof i.value?a.value!==i.value&&o.push(a.name):i.value instanceof RegExp?i.value.test(a.value)||o.push(a.name):Array.isArray(i.value)?i.value.includes(a.value)||o.push(a.name):"object"==typeof i.value&&i.value.hasOwnProperty("preset")&&s.hasOwnProperty(i.value.preset)?s[i.value.preset](a.value).remove&&o.push(a.name):o.push(a.name)):t.push(a.name)}t.forEach((t=>e.removeAttribute(t))),o.forEach((t=>{return r=t,e.setAttribute(r,"");var r}))}else{const t=[];for(let r=0;r<e.attributes.length;r++)t.push(e.attributes[r].name);t.forEach((t=>e.removeAttribute(t)))}}else e.insertAdjacentHTML("afterend",e.innerHTML),e.remove()})),n.stringify(t)}toHTMLEntities(e){return e.split("").map((e=>`&#${e.charCodeAt()};`)).join("")}};return t})()));
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["PurifyHTML"] = factory();
+	else
+		root["PurifyHTML"] = factory();
+})(self, function() {
+return /******/ (function() { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./lib/core.js":
+/*!*********************!*\
+  !*** ./lib/core.js ***!
+  \*********************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "PurifyHTML": function() { return /* binding */ PurifyHTML; },
+/* harmony export */   "setParser": function() { return /* binding */ setParser; }
+/* harmony export */ });
+/* harmony import */ var _utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils.js */ "./lib/utils.js");
+
+
+let parser = {
+  parse(string) {
+    return new DOMParser()
+      .parseFromString(string, 'text/html')
+      .querySelector('body');
+  },
+  stringify(elem) {
+    return elem.innerHTML;
+  },
+};
+
+class PurifyHTML {
+  constructor(allowedTags = []) {
+    // clone params for safe mutations
+    if (Object.prototype.hasOwnProperty.call(self, 'structuredClone')) {
+      //allowedTags = structuredClone(allowedTags);
+    } else {
+      // self.structuredClone support: https://caniuse.com/mdn-api_structuredclone
+      console.warn(
+        [
+          '\n',
+          'The "self.structuredClone" method is not supported in this browser.',
+          'This means that you cannot use regular expressions to validate attribute content.',
+          'You might consider using a polyfill from core-js: https://github.com/zloirock/core-js#structuredclone`',
+          '\n',
+        ].join('\n')
+      );
+
+      //allowedTags = JSON.parse(JSON.stringify(allowedTags));
+    }
+
+    this.allowedTags = allowedTags.reduce((acc, curr) => {
+      switch (typeof curr) {
+        case 'string':
+          acc[curr] = Object.assign(acc[curr] || {}, {});
+          break;
+
+        case 'object':
+          acc[curr.name] = Object.assign(
+            acc[curr] || {},
+            (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.transformAttributes)(curr)
+          );
+      }
+
+      return acc;
+    }, {});
+
+    this.whiteList = Object.keys(this.allowedTags);
+
+    this.sanitize.bind(this);
+  }
+  sanitize(str) {
+    const wrapper = parser.parse(str);
+
+    const allItems = (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.getSortedByMaxChildDeep)(wrapper);
+
+    allItems.forEach(tag => {
+      const name = tag.tagName.toLowerCase();
+
+      if (this.whiteList.includes(name)) {
+        const tagConfig = this.allowedTags[name];
+
+        if (
+          Object.prototype.hasOwnProperty.call(tagConfig, 'attributes') &&
+          tagConfig.attributes.length > 0
+        ) {
+          let deleteList = [];
+          let clearList = [];
+
+          for (let i = 0; i < tag.attributes.length; i++) {
+            const attr = tag.attributes[i];
+
+            // get attribute rules
+            const attributeRules = tagConfig.attributes.find(
+              attrRule => attrRule.name === attr.name
+            );
+
+            if (!attributeRules) {
+              // if rules not defined
+              deleteList.push(attr.name);
+            } else if (
+              Object.prototype.hasOwnProperty.call(attributeRules, 'value')
+            ) {
+              // if rules defined
+
+              if (typeof attributeRules.value === 'string') {
+                if (attr.value !== attributeRules.value) {
+                  // if rules is string
+                  clearList.push(attr.name);
+                }
+              } else if (attributeRules.value instanceof RegExp) {
+                // if rules is regexp
+                if (!attributeRules.value.test(attr.value)) {
+                  clearList.push(attr.name);
+                }
+              } else if (Array.isArray(attributeRules.value)) {
+                // if rules is an array (an array of strings - valid values)
+                if (!attributeRules.value.includes(attr.value)) {
+                  clearList.push(attr.name);
+                }
+              } else if (typeof attributeRules.value === 'object') {
+                if (
+                  Object.prototype.hasOwnProperty.call(
+                    attributeRules.value,
+                    'preset'
+                  )
+                ) {
+                  // if rules is preset
+
+                  if (
+                    Object.prototype.hasOwnProperty.call(
+                      _utils_js__WEBPACK_IMPORTED_MODULE_0__.valuesPresets,
+                      attributeRules.value.preset
+                    )
+                  ) {
+                    const presetRes = _utils_js__WEBPACK_IMPORTED_MODULE_0__.valuesPresets[
+                      attributeRules.value.preset
+                    ](attr.value);
+
+                    if (presetRes.remove) {
+                      clearList.push(attr.name);
+                    }
+                  } else {
+                    clearList.push(attr.name);
+                  }
+                } else {
+                  // remove attribute if get empty object
+                  clearList.push(attr.name);
+                }
+              } else {
+                // remove attribute value by default
+                clearList.push(attr.name);
+              }
+            }
+          }
+
+          deleteList.forEach(attrName => tag.removeAttribute(attrName));
+          clearList.forEach(attrName => (0,_utils_js__WEBPACK_IMPORTED_MODULE_0__.removeAttributeValue)(tag, attrName));
+        } else {
+          const deleteList = [];
+
+          for (let i = 0; i < tag.attributes.length; i++) {
+            deleteList.push(tag.attributes[i].name);
+          }
+
+          deleteList.forEach(attrName => tag.removeAttribute(attrName));
+        }
+      } else {
+        tag.insertAdjacentHTML('afterend', tag.innerHTML);
+        tag.remove();
+      }
+    });
+
+    return parser.stringify(wrapper);
+  }
+
+  toHTMLEntities(str) {
+    return str
+      .split('')
+      .map(n => `&#${n.charCodeAt()};`)
+      .join('');
+  }
+}
+
+const setParser = (customParser = {}) => {
+  if (!Object.prototype.hasOwnProperty.call(customParser, 'parse')) {
+    console.error(
+      'cannot to find method "parse" in custom parser!',
+      customParser
+    );
+
+    return 0;
+  }
+
+  if (!Object.prototype.hasOwnProperty.call(customParser, 'stringify')) {
+    console.error(
+      'cannot to find method "stringify" in custom parser!',
+      customParser
+    );
+
+    return 0;
+  }
+
+  parser = customParser;
+  return 1;
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (PurifyHTML);
+
+
+/***/ }),
+
+/***/ "./lib/utils.js":
+/*!**********************!*\
+  !*** ./lib/utils.js ***!
+  \**********************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "addPrefix": function() { return /* binding */ addPrefix; },
+/* harmony export */   "getSortedByMaxChildDeep": function() { return /* binding */ getSortedByMaxChildDeep; },
+/* harmony export */   "removeAttributeValue": function() { return /* binding */ removeAttributeValue; },
+/* harmony export */   "safelyGetLink": function() { return /* binding */ safelyGetLink; },
+/* harmony export */   "transformAttributes": function() { return /* binding */ transformAttributes; },
+/* harmony export */   "valuesPresets": function() { return /* binding */ valuesPresets; }
+/* harmony export */ });
+const removeAttributeValue = (node, attributeName) =>
+  node.setAttribute(attributeName, '');
+
+const getSortedByMaxChildDeep = (() => {
+  const markDeep = (node, d = 0) => {
+    node._d = d;
+
+    if (node.children.length) {
+      [...node.children].forEach(n => markDeep(n, d + 1));
+    } else {
+      return d;
+    }
+  };
+
+  return node => {
+    markDeep(node);
+
+    return [...node.querySelectorAll('*')].sort((a, b) => b._d - a._d);
+  };
+})();
+
+const transformAttributes = rule => {
+  const res = [];
+
+  if (!Object.prototype.hasOwnProperty.call(rule, 'attributes')) {
+    rule.attributes = [];
+  }
+
+  rule.attributes.forEach(attr => {
+    switch (typeof attr) {
+      case 'string':
+        res.push({ name: attr });
+        break;
+
+      case 'object':
+        res.push(attr);
+        break;
+    }
+  });
+
+  rule.attributes = res;
+
+  return rule;
+};
+
+const safelyGetLink = str => {
+  try {
+    return new URL(str);
+  } catch (e) {
+    return null;
+  }
+};
+
+const addPrefix = (str, check, prefix) =>
+  check.test(str) ? str : prefix + str;
+
+const valuesPresets = {
+  '%correct-link%'(str) {
+    return {
+      remove: safelyGetLink(str) === null,
+    };
+  },
+  '%http-link%'(str) {
+    const url = safelyGetLink(str);
+
+    return {
+      remove: url === null || url.protocol !== 'http:',
+    };
+  },
+  '%https-link%'(str) {
+    const url = safelyGetLink(str);
+
+    return {
+      remove: url === null || url.protocol !== 'https:',
+    };
+  },
+  '%ftp-link%'(str) {
+    const url = safelyGetLink(str);
+
+    return {
+      remove: url === null || url.protocol !== 'ftp:',
+    };
+  },
+  '%https-link-without-search-params%'(str) {
+    const url = safelyGetLink(str);
+
+    return {
+      remove: url === null || url.search !== '' || url.protocol !== 'https:',
+    };
+  },
+  '%http-link-without-search-params%'(str) {
+    const url = safelyGetLink(str);
+
+    return {
+      remove: url === null || url.search !== '' || url.protocol !== 'http:',
+    };
+  },
+  '%same-origin%'(str) {
+    const url = safelyGetLink(str);
+
+    return {
+      remove: url === null || self.location.origin !== url.origin,
+    };
+  },
+};
+
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	!function() {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	!function() {
+/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	!function() {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = function(exports) {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+!function() {
+/*!**************************!*\
+  !*** ./lib/index.esm.js ***!
+  \**************************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "setParser": function() { return /* reexport safe */ _core_js__WEBPACK_IMPORTED_MODULE_0__.setParser; }
+/* harmony export */ });
+/* harmony import */ var _core_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core.js */ "./lib/core.js");
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (_core_js__WEBPACK_IMPORTED_MODULE_0__.PurifyHTML);
+
+}();
+/******/ 	return __webpack_exports__;
+/******/ })()
+;
+});
