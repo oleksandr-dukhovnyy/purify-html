@@ -184,6 +184,32 @@ describe('Sanitizer', () => {
     );
   });
 
+  test('remove comments', () => {
+    const sanitizer = new Sanitizer();
+    const str = '<div id="app">app</div><!-- <div></div> -->';
+
+    expect(sanitizer.sanitize(str)).toEqual('app');
+  });
+
+  test('dont remove comments', () => {
+    const sanitizer = new Sanitizer(['#comments']);
+    const str = '<div>app</div><!-- <div></div> -->';
+
+    expect(sanitizer.sanitize(str)).toEqual('app<!-- <div></div> -->');
+  });
+
+  test('remove comments, but in div', () => {
+    const sanitizer = new Sanitizer([
+      { name: 'div', dontRemoveComments: true },
+    ]);
+
+    const str = '<div><!-- <span></span> --></div><!-- <div></div> -->';
+
+    expect(sanitizer.sanitize(str)).toEqual(
+      '<div><!-- <span></span> --></div>'
+    );
+  });
+
   test('toHTMLEntities', () => {
     const sanitizer = new Sanitizer();
     const str = [

@@ -141,4 +141,19 @@ describe('utils', () => {
 
     expect(obj.data.deepData === clonedObj.data.deepData).toEqual(false);
   });
+
+  test('[removeComments]', () => {
+    const node = new DOMParser().parseFromString(
+      '<div>content</div><!-- <div>comment</div> -->',
+      'text/html'
+    ).body;
+
+    utils.removeComments(node);
+
+    expect(/<!--|-->|comment/g.test(node.innerHTML)).toEqual(false);
+  });
+
+  test('[removeComments]', () => {
+    expect(utils.removeComments({})).toEqual(false);
+  });
 });

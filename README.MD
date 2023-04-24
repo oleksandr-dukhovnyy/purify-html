@@ -116,6 +116,7 @@ type OptionItem {
   // tagname
   attributes: Array<string | AttributesItem>
   // rules for attributes
+  dontRemoveComments: boolean | undefined
 }
 
 type AttributesItem {
@@ -247,6 +248,39 @@ console.log(safeString);
 Usage for the browser is slightly different from usage with faucets. This is bad, but it had to be done in order not to clog the global scope.
 
 ---
+
+## HTML comments
+
+### Description of the problem
+
+For example the line: `<!-- <img src="x" onerror="alert(1)"> -->`.
+
+Technically, inserting it into the DOM will not lead to code execution, but it cannot be considered safe either. The result of the `sanitize` method is declared to be sanitized using the rules specified when the sanitizer was initialized.
+
+Therefore, you are given the opportunity to control in which places you will leave comments, and in which not.
+
+### API
+
+By default, HTML comments are stripped. You can change it like this:
+
+```javascript
+import PurifyHTML from 'purify-html';
+
+const sanitizer = new PurifyHTML(['#comments' /* ... */]);
+
+sanitizer.sanitize(/* ... */);
+```
+
+If you want comments to be removed everywhere except for specific tags, then you can specify it like this:
+
+```javascript
+import PurifyHTML from 'purify-html';
+
+const rules = [{ name: 'div', dontRemoveComments: true }];
+const sanitizer = new PurifyHTML(rules);
+
+sanitizer.sanitize(/* ... */);
+```
 
 ## setParser
 
