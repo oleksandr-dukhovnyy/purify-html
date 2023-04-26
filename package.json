@@ -36,7 +36,8 @@
     "lint": "npx eslint lib/**",
     "lint-watch": "npx eslint lib/** --watch",
     "lint-fix": "npx eslint lib/** --fix",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "types": "tsc"
   },
   "author": "alex-js-dev",
   "license": "MIT",
