@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './lib/index.browser.js',
+  entry: './src/index.browser.js',
   devtool: false,
   output: {
     path: path.resolve(__dirname, 'dist'),

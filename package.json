@@ -33,9 +33,9 @@
     "prettier-watch": "onchange \"**/*\" -- prettier --write --ignore-unknown {{changed}}",
     "test-watch": "jest --watchAll",
     "test": "jest",
-    "lint": "npx eslint lib/**",
-    "lint-watch": "npx eslint lib/** --watch",
-    "lint-fix": "npx eslint lib/** --fix",
+    "lint": "npx eslint src/**",
+    "lint-watch": "npx eslint src/** --watch",
+    "lint-fix": "npx eslint src/** --fix",
     "prepare": "husky install"
   },
   "author": "alex-js-dev",

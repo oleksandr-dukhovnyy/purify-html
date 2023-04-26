@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './lib/index.esm.js',
+  entry: './src/index.esm.js',
   devtool: false,
   output: {
     path: path.resolve(__dirname, 'dist'),
