@@ -4,17 +4,17 @@ The algorithm for making a contribution is somewhat different, depending on the 
 
 # cases
 
-## RP aimed at fixing bugs that are not vulnerabilities.
+## PR aimed at fixing bugs that are not vulnerabilities.
 
 - First of all, create an issue describing the problem. In the issue, indicate that you want to create a PR.
 - After reviewing the issue and deciding that it is indeed a bug, you will be given the opportunity to contribute (priority acceptance of your PR).
 - For any changes, create a `bugfix/#<x>` branch, where `x` is the issue id.
 
-## RP aimed at fixing vulnerabilities.
+## PR aimed at fixing vulnerabilities.
 
 Follow the link `https://github.com/Aleksandr-JS-Developer/purify-html/security/advisories/new` and fill out the form. If you are not sure how to fill out the form - just write what you can. Please allow time for correction (or correct it yourself) before posting any information publicly.
 
-## RP aimed at adding new functionality.
+## PR aimed at adding new functionality.
 
 `purify-html` is positioned as a minimalist and fast tool. This means that the addition of any new functionality should be driven by a specific need. But, despite this, the functionality you proposed will be considered and analyzed in detail.
 
@@ -22,13 +22,13 @@ Follow the link `https://github.com/Aleksandr-JS-Developer/purify-html/security/
 - Wait for approval to add functionality.
 - Submit your PR.
 
-## RP aimed at updating documentation
+## PR aimed at updating documentation
 
 - Create an issue stating what you want to fix or add and indicate that you want to create a PR.
 - Wait for approval.
 - Submit your PR.
 
-## another RP target
+## Another PR target
 
 - Create an issue stating what you want to fix or add and indicate that you want to create a PR.
 - Wait for approval.
