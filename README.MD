@@ -276,7 +276,7 @@ If you want comments to be removed everywhere except for specific tags, then you
 ```javascript
 import PurifyHTML from 'purify-html';
 
-const rules = [{ name: 'div', dontRemoveComments: true }];
+const rules = ['#comments', { name: 'div', dontRemoveComments: true }];
 const sanitizer = new PurifyHTML(rules);
 
 sanitizer.sanitize(/* ... */);
