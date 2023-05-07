@@ -1,6 +1,6 @@
 {
   "name": "purify-html",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "description": "A minimalistic library for sanitizing strings so that they can be safely used as HTML.",
   "repository": {
     "type": "git",
