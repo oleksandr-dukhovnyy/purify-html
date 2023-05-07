@@ -1,4 +1,4 @@
-import Sanitizer, { setParser } from '@/core.js';
+import Sanitizer, { setParser } from '@/core.ts';
 import 'core-js/modules/web.structured-clone';
 
 describe('Sanitizer', () => {

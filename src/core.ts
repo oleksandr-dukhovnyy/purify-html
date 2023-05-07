@@ -1,4 +1,5 @@
 /** @module core */
+import { TagRule, AttributeRule, HTMLParser } from './types';
 
 import {
   removeAttributeValue,
@@ -7,61 +8,23 @@ import {
   getSortedByMaxChildDeep,
   copyConfig,
   removeComments,
-} from './utils.js';
+} from './utils';
 
-/**
- * HTMLParser interface
- * @typedef HTMLParser
- * @type {object}
- */
-
-/**
- * Parse HTML string and create a HTMLElement like object
- *
- * @name HTMLParser#parse
- * @function
- * @param {string} HTMLString  string of HTML code
- * @returns {HTMLElement}
- */
-
-/**
- *  Stringify HTMLElement like object to HTML string
- *
- * @name HTMLParser#stringify
- * @function
- * @param {string} HTMLElement
- * @returns {string} string of HTML code
- */
-
-let parser = (() => {
-  const elem = new DOMParser()
+let parser: HTMLParser = ((): HTMLParser => {
+  const elem: Element = new DOMParser()
     .parseFromString('', 'text/html')
     .querySelector('body');
 
   return {
-    parse(string) {
+    parse(string: string): Element {
       elem.innerHTML = string;
       return elem;
     },
-    stringify(elem) {
+    stringify(elem: Element): string {
       return elem.innerHTML;
     },
   };
 })();
-
-/**
- * @typedef AttributeRules
- * @type {object}
- * @property {string} name - name of attribute. See more: {@link https://developer.mozilla.org/en-US/docs/Web/API/Element/attributes Element.attributes}.
- * @property {string | RegExp | Array<string> | { preset: string }} value - rule for tag
- */
-
-/**
- * @typedef TagRule
- * @type {object}
- * @property {string} name - name of tag. See more: {@link https://developer.mozilla.org/en-US/docs/Web/API/Element/tagName tagName}.
- * @property {Array<string | AttributeRules>} attributes - rules for attributes. If set just string like 'class', it`s set allow for use attribute "class" with any value. For details about AttributesItem see [this]{@link AttributeRules}.
- */
 
 /**
  * Purify instance.
@@ -69,40 +32,42 @@ let parser = (() => {
 export class PurifyHTML {
   /**
    * Create PurifyHTML instance
-   * @param {Array<TagRule | string>} allowedTags
-   * @default []
    */
-  constructor(allowedTags = []) {
-    /**
-     * @property {bool} removeComments is need to remove comments in root and in all nodes by default
-     * @default true
-     */
-    this.removeComments = true;
 
+  /**
+   * Is need to remove comments in root and in all nodes by default
+   */
+  protected removeComments = true;
+  protected allowedTags: TagRule[];
+  protected whiteList: string[];
+
+  constructor(allowedTags: TagRule[] | string[] = []) {
     /**
      * Copy and compile a rules
-     * @type {Array<TagRule | string>}
      */
-    this.allowedTags = copyConfig(allowedTags).reduce((acc, curr) => {
-      switch (typeof curr) {
-        case 'string': {
-          if (curr === '#comments') {
-            this.removeComments = false;
-          } else {
-            acc[curr] = Object.assign(acc[curr] || {}, {});
+    this.allowedTags = copyConfig(allowedTags).reduce(
+      (acc: object, curr: TagRule | string) => {
+        switch (typeof curr) {
+          case 'string': {
+            if (curr === '#comments') {
+              this.removeComments = false;
+            } else {
+              acc[curr] = Object.assign(acc[curr] || {}, {});
+            }
+
+            break;
           }
-
-          break;
+          case 'object':
+            acc[curr.name] = Object.assign(
+              acc[curr.name] || {},
+              transformAttributes(curr)
+            );
         }
-        case 'object':
-          acc[curr.name] = Object.assign(
-            acc[curr] || {},
-            transformAttributes(curr)
-          );
-      }
 
-      return acc;
-    }, {});
+        return acc;
+      },
+      {}
+    );
 
     /**
      * Copy and compile a rules
@@ -120,20 +85,20 @@ export class PurifyHTML {
    * @param {string} str to needs to sanitize.
    * @return {string} A string cleared according to the rules from this.allowedTags.
    */
-  sanitize(str) {
-    const wrapper = parser.parse(str);
+  public sanitize(str: string): string {
+    const wrapper: Element = parser.parse(str);
 
     if (this.removeComments) {
       removeComments(wrapper);
     }
 
-    const allItems = getSortedByMaxChildDeep(wrapper);
+    const allItems: Element[] = getSortedByMaxChildDeep(wrapper);
 
-    allItems.forEach(tag => {
+    allItems.forEach((tag: Element) => {
       const name = tag.tagName.toLowerCase();
 
       if (this.whiteList.includes(name)) {
-        const tagConfig = this.allowedTags[name];
+        const tagConfig: TagRule = this.allowedTags[name];
 
         if (this.removeComments && tagConfig.dontRemoveComments !== true) {
           removeComments(tag);
@@ -143,15 +108,15 @@ export class PurifyHTML {
           Object.prototype.hasOwnProperty.call(tagConfig, 'attributes') &&
           tagConfig.attributes.length > 0
         ) {
-          let deleteList = [];
-          let clearList = [];
+          const deleteList: string[] = [];
+          const clearList: string[] = [];
 
           for (let i = 0; i < tag.attributes.length; i++) {
-            const attr = tag.attributes[i];
+            const attr: Attr = tag.attributes[i];
 
             // get attribute rules
             const attributeRules = tagConfig.attributes.find(
-              attrRule => attrRule.name === attr.name
+              (attrRule: AttributeRule) => attrRule.name === attr.name
             );
 
             if (!attributeRules) {
@@ -161,7 +126,6 @@ export class PurifyHTML {
               Object.prototype.hasOwnProperty.call(attributeRules, 'value')
             ) {
               // if rules defined
-
               if (typeof attributeRules.value === 'string') {
                 if (attr.value !== attributeRules.value) {
                   // if rules is string
@@ -213,21 +177,28 @@ export class PurifyHTML {
             }
           }
 
-          deleteList.forEach(attrName => tag.removeAttribute(attrName));
-          clearList.forEach(attrName => removeAttributeValue(tag, attrName));
+          deleteList.forEach((attrName: string) =>
+            tag.removeAttribute(attrName)
+          );
+          clearList.forEach((attrName: string) =>
+            removeAttributeValue(tag, attrName)
+          );
         } else {
-          const deleteList = [];
+          const deleteList: string[] = [];
 
           for (let i = 0; i < tag.attributes.length; i++) {
             deleteList.push(tag.attributes[i].name);
           }
 
-          deleteList.forEach(attrName => tag.removeAttribute(attrName));
+          deleteList.forEach((attrName: string) =>
+            tag.removeAttribute(attrName)
+          );
         }
       } else {
         if (this.removeComments) {
           removeComments(tag);
         }
+
         tag.insertAdjacentHTML('afterend', tag.innerHTML);
         tag.remove();
       }
@@ -238,23 +209,26 @@ export class PurifyHTML {
 
   /**
    * Convert a string to {@link https://www.w3schools.com/html/html_entities.asp HTML Entities}.
-   * @param {string} str
-   * @return {string} string of HTML Entities.
    */
-  toHTMLEntities(str) {
+  public toHTMLEntities(str: string): string {
     return str
       .split('')
-      .map(n => `&#${n.charCodeAt()};`)
+      .map(n => `&#${n.charCodeAt(0)};`)
       .join('');
   }
 }
 
 /**
  * Set HTML custom parser
- * @param {HTMLParser} customParser - The first color, in hexadecimal format.
- * @return {number} if 1 - parser sets successful. 0 - error, see console errors for details.
  */
-export const setParser = (customParser = {}) => {
+export const setParser = (
+  customParser: HTMLParser | null | undefined
+): number => {
+  if (!customParser) {
+    console.error('customParser is null!');
+    return 0;
+  }
+
   if (!Object.prototype.hasOwnProperty.call(customParser, 'parse')) {
     console.error(
       'cannot to find method "parse" in custom parser!',

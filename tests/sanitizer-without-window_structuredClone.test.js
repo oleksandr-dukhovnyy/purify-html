@@ -1,4 +1,4 @@
-import Sanitizer from '@/core.js';
+import Sanitizer from '@/core.ts';
 
 describe('Sanitizer self.structuredClone', () => {
   test('!window.hasOwnProperty("structuredClone")', () => {

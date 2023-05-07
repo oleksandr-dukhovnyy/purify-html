@@ -1,10 +1,15 @@
 {
-  "include": ["lib/*"],
+  "include": ["src/**/*.ts"],
   "compilerOptions": {
-    "allowJs": true,
+    "target": "esnext",
+    "allowJs": false,
     "declaration": true,
-    "emitDeclarationOnly": true,
+    // "emitDeclarationOnly": true,
+    "declarationMap": true,
+    "noEmit": false,
     "outDir": "dist",
-    "declarationMap": true
+    "module": "ES6",
+    "moduleResolution": "node",
+    "lib": ["dom", "es2015", "es2016", "es2017", "esnext"]
   }
 }

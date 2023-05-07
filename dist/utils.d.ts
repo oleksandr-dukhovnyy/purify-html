@@ -1,11 +1,47 @@
-export function removeAttributeValue(node: HTMLElement, attributeName: string): void;
-export function removeComments(node: HTMLElement): undefined | false;
-export function getSortedByMaxChildDeep(node: any): any[];
-export function transformAttributes(rule: TagRule | string): TagRule;
-export function safelyGetLink(str: any): URL | null;
-export function addPrefix(str: string, check: RegExp, prefix: string): string;
-export function deepClone(obj: object): object;
-export function copyConfig(config: Array<string | TagRule>): Array<string | TagRule>;
+/** @module utils */
+import { TagRule, presetTestResult } from './types';
+/**
+ * Remove attribute value, but dont remove attribute.
+ */
+export declare const removeAttributeValue: (node: Element, attributeName: string) => void;
+/**
+ * Remove all comments in childNodes.
+ * Comments in child nodes are not removed
+ *
+ * @param {HTMLElement} node
+ * @returns {undefined | false} undefined - ok, false - error
+ */
+export declare const removeComments: (node: Element) => undefined | false;
+/**
+ * @param {Element} node
+ * @returns {Element[]} array of node childs sorted by child's max deep
+ */
+export declare const getSortedByMaxChildDeep: (node: Element) => Element[];
+/**
+ * Normalize a TagRule.
+ */
+export declare const transformAttributes: (rule: TagRule) => TagRule;
+/**
+ * Safely get link with try...catch.
+ */
+export declare const safelyGetLink: (str: string) => URL | null;
+/**
+ * Add prefix by check
+ *
+ * @returns {string} if check returns true - prefix + str, else str
+ */
+export declare const addPrefix: (str: string, check: RegExp, prefix: string) => string;
+/**
+ * Deep clone an object
+ */
+export declare const deepClone: (item: object | string) => object | string;
+/**
+ * Create clone of config for safe mutations
+ *
+ * @param {string[] | TagRule[]} config
+ * @returns {string[] | TagRule[]} cloned config
+ */
+export declare const copyConfig: (config: any[]) => any[];
 /**
  * @typedef PresetCheckResult
  * @type {object}
@@ -16,75 +52,36 @@ export function copyConfig(config: Array<string | TagRule>): Array<string | TagR
  *
  * @interface
  */
-export const valuesPresets: {
+export declare const valuesPresets: {
     /**
      * Check is str a correct link
-     *
-     * @function
-     * @name valuesPresets#%correct-link%
-     * @param {string} str
-     * @returns {PresetCheckResult}
      */
-    '%correct-link%'(str: string): PresetCheckResult;
+    '%correct-link%'(str: string): presetTestResult;
     /**
      * Check is str a correct link and has HTTP protocol
-     *
-     * @function
-     * @name valuesPresets#%http-link%
-     * @param {string} str
-     * @returns {PresetCheckResult}
      */
-    '%http-link%'(str: string): PresetCheckResult;
+    '%http-link%'(str: string): presetTestResult;
     /**
      * Check is str a correct link and has HTTPS protocol
-     *
-     * @function
-     * @name valuesPresets#%https-link%
-     * @param {string} str
-     * @returns {PresetCheckResult}
      */
-    '%https-link%'(str: string): PresetCheckResult;
+    '%https-link%'(str: string): presetTestResult;
     /**
      * Check is str a correct link and has FTP protocol
-     *
-     * @function
-     * @name valuesPresets#%ftp-link%
-     * @param {string} str
-     * @returns {PresetCheckResult}
      */
-    '%ftp-link%'(str: string): PresetCheckResult;
+    '%ftp-link%'(str: string): presetTestResult;
     /**
      * Check is str a correct link and has HTTPS protocol and does not have a params
      *
      * @function
-     * @name valuesPresets#%https-link-without-search-params%
-     * @param {string} str
-     * @returns {PresetCheckResult}
      */
-    '%https-link-without-search-params%'(str: string): PresetCheckResult;
+    '%https-link-without-search-params%'(str: string): presetTestResult;
     /**
      * Check is str a correct link and has HTTP protocol and does not have a params
-     *
-     * @function
-     * @name valuesPresets#%http-link-without-search-params%
-     * @param {string} str
-     * @returns {PresetCheckResult}
      */
-    '%http-link-without-search-params%'(str: string): PresetCheckResult;
+    '%http-link-without-search-params%'(str: string): presetTestResult;
     /**
      * Check is str a correct link and has same origin with current `location.origin`
-     *
-     * @function
-     * @name valuesPresets#%same-origin%
-     * @param {string} str
-     * @returns {PresetCheckResult}
      */
-    '%same-origin%'(str: string): PresetCheckResult;
-};
-export type PresetCheckResult = {
-    /**
-     * if true - attribute value is incorrect
-     */
-    remove: boolean;
+    '%same-origin%'(str: string): presetTestResult;
 };
 //# sourceMappingURL=utils.d.ts.map

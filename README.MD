@@ -111,18 +111,18 @@ console.log(
 An array with rules for the sanitizer.
 
 ```typescript
-type OptionItem {
-  name: string,
+type OptionItem = {
+  name: string;
   // tagname
-  attributes: Array<string | AttributesItem>
+  attributes: string[] | AttributesItem[];
   // rules for attributes
-  dontRemoveComments: boolean | undefined
+  dontRemoveComments?: boolean;
 }
 
 type AttributesItem {
-  name: string,
+  name: string;
   // attribute name
-  value: string | RegExp | Array<string> | { preset: string }
+  value: string | string[] | RegExp | { preset: string }
   // rules for attribute value
 }
 ```

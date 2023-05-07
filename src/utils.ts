@@ -1,11 +1,15 @@
 /** @module utils */
+import {
+  AttributeRule,
+  TagRule,
+  presetTestResult,
+  MarkedElement,
+} from './types';
 
 /**
  * Remove attribute value, but dont remove attribute.
- * @param {HTMLElement} node
- * @param {string} attributeName
  */
-export const removeAttributeValue = (node, attributeName) =>
+export const removeAttributeValue = (node: Element, attributeName: string) =>
   node.setAttribute(attributeName, '');
 
 /**
@@ -15,7 +19,7 @@ export const removeAttributeValue = (node, attributeName) =>
  * @param {HTMLElement} node
  * @returns {undefined | false} undefined - ok, false - error
  */
-export const removeComments = node => {
+export const removeComments = (node: Element): undefined | false => {
   if ('childNodes' in node) {
     for (
       let childIndex = 0;
@@ -32,11 +36,11 @@ export const removeComments = node => {
 };
 
 /**
- * @param {HTMLElement} node
- * @returns {Array<HTMLElement>} array of node childs sorted by child's max deep
+ * @param {Element} node
+ * @returns {Element[]} array of node childs sorted by child's max deep
  */
 export const getSortedByMaxChildDeep = (() => {
-  const markDeep = (node, d = 0) => {
+  const markDeep = (node: MarkedElement, d = 0): number | undefined => {
     node._d = d;
 
     if (node.children.length) {
@@ -46,21 +50,24 @@ export const getSortedByMaxChildDeep = (() => {
     }
   };
 
-  return node => {
+  return (node: Element): Element[] => {
     markDeep(node);
 
-    return [...node.querySelectorAll('*')].sort((a, b) => b._d - a._d);
+    return [...node.querySelectorAll('*')]
+      .sort((a: MarkedElement, b: MarkedElement) => b._d - a._d)
+      .map((el: MarkedElement): Element => {
+        delete el._d;
+
+        return el;
+      });
   };
 })();
 
 /**
  * Normalize a TagRule.
- *
- * @param {TagRule | string} rule
- * @returns {TagRule} see {@link TagRule}
  */
-export const transformAttributes = rule => {
-  const res = [];
+export const transformAttributes = (rule: TagRule): TagRule => {
+  const res: AttributeRule[] = [];
 
   if (!Object.prototype.hasOwnProperty.call(rule, 'attributes')) {
     rule.attributes = [];
@@ -85,11 +92,8 @@ export const transformAttributes = rule => {
 
 /**
  * Safely get link with try...catch.
- *
- * @param string} str
- * @returns {URL | null}
  */
-export const safelyGetLink = str => {
+export const safelyGetLink = (str: string): URL | null => {
   try {
     return new URL(str);
   } catch (e) {
@@ -100,31 +104,27 @@ export const safelyGetLink = str => {
 /**
  * Add prefix by check
  *
- * @param {string} str
- * @param {RegExp} check
- * @param {string} prefix
  * @returns {string} if check returns true - prefix + str, else str
  */
-export const addPrefix = (str, check, prefix) =>
+export const addPrefix = (str: string, check: RegExp, prefix: string) =>
   check.test(str) ? str : prefix + str;
 
 /**
- * Clone an object
- *
- * @param {object} obj
- * @returns {object} cloned obj
+ * Deep clone an object
  */
-export const deepClone = obj => {
+export const deepClone = (item: object | string): object | string => {
+  if (typeof item === 'string') return item;
+
   if (Object.prototype.hasOwnProperty.call(globalThis, 'structuredClone'))
-    return structuredClone(obj);
+    return structuredClone(item);
 
   const res = {};
 
-  for (let key in obj) {
-    if (typeof obj[key] === 'object') {
-      res[key] = deepClone(obj[key]);
+  for (const key in item) {
+    if (typeof item[key] === 'object') {
+      res[key] = deepClone(item[key]);
     } else {
-      res[key] = obj[key];
+      res[key] = item[key];
     }
   }
 
@@ -134,10 +134,10 @@ export const deepClone = obj => {
 /**
  * Create clone of config for safe mutations
  *
- * @param {Array<string | TagRule>} config
- * @returns {Array<string | TagRule>} cloned config
+ * @param {string[] | TagRule[]} config
+ * @returns {string[] | TagRule[]} cloned config
  */
-export const copyConfig = config => config.map(deepClone);
+export const copyConfig = (config: any[]): any[] => config.map(deepClone);
 
 /**
  * @typedef PresetCheckResult
@@ -153,13 +153,8 @@ export const copyConfig = config => config.map(deepClone);
 export const valuesPresets = {
   /**
    * Check is str a correct link
-   *
-   * @function
-   * @name valuesPresets#%correct-link%
-   * @param {string} str
-   * @returns {PresetCheckResult}
    */
-  '%correct-link%'(str) {
+  '%correct-link%'(str: string): presetTestResult {
     return {
       remove: safelyGetLink(str) === null,
     };
@@ -167,13 +162,8 @@ export const valuesPresets = {
 
   /**
    * Check is str a correct link and has HTTP protocol
-   *
-   * @function
-   * @name valuesPresets#%http-link%
-   * @param {string} str
-   * @returns {PresetCheckResult}
    */
-  '%http-link%'(str) {
+  '%http-link%'(str: string): presetTestResult {
     const url = safelyGetLink(str);
 
     return {
@@ -183,13 +173,8 @@ export const valuesPresets = {
 
   /**
    * Check is str a correct link and has HTTPS protocol
-   *
-   * @function
-   * @name valuesPresets#%https-link%
-   * @param {string} str
-   * @returns {PresetCheckResult}
    */
-  '%https-link%'(str) {
+  '%https-link%'(str: string): presetTestResult {
     const url = safelyGetLink(str);
 
     return {
@@ -199,13 +184,8 @@ export const valuesPresets = {
 
   /**
    * Check is str a correct link and has FTP protocol
-   *
-   * @function
-   * @name valuesPresets#%ftp-link%
-   * @param {string} str
-   * @returns {PresetCheckResult}
    */
-  '%ftp-link%'(str) {
+  '%ftp-link%'(str: string): presetTestResult {
     const url = safelyGetLink(str);
 
     return {
@@ -217,11 +197,8 @@ export const valuesPresets = {
    * Check is str a correct link and has HTTPS protocol and does not have a params
    *
    * @function
-   * @name valuesPresets#%https-link-without-search-params%
-   * @param {string} str
-   * @returns {PresetCheckResult}
    */
-  '%https-link-without-search-params%'(str) {
+  '%https-link-without-search-params%'(str: string): presetTestResult {
     const url = safelyGetLink(str);
 
     return {
@@ -231,13 +208,8 @@ export const valuesPresets = {
 
   /**
    * Check is str a correct link and has HTTP protocol and does not have a params
-   *
-   * @function
-   * @name valuesPresets#%http-link-without-search-params%
-   * @param {string} str
-   * @returns {PresetCheckResult}
    */
-  '%http-link-without-search-params%'(str) {
+  '%http-link-without-search-params%'(str: string): presetTestResult {
     const url = safelyGetLink(str);
 
     return {
@@ -247,13 +219,8 @@ export const valuesPresets = {
 
   /**
    * Check is str a correct link and has same origin with current `location.origin`
-   *
-   * @function
-   * @name valuesPresets#%same-origin%
-   * @param {string} str
-   * @returns {PresetCheckResult}
    */
-  '%same-origin%'(str) {
+  '%same-origin%'(str: string): presetTestResult {
     const url = safelyGetLink(str);
 
     return {

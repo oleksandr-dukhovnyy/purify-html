@@ -1,4 +1,4 @@
-import { PurifyHTML, setParser } from './core.js';
+import { PurifyHTML, setParser } from './core';
 
 globalThis.PurifyHTML = {
   sanitizer: PurifyHTML,
