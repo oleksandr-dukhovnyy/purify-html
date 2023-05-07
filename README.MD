@@ -6,6 +6,7 @@
 ![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/Aleksandr-JS-Developer/purify-html?style=flat-square)
 
 A minimalist client library for cleaning up strings so they can be safely used as HTML.
+Do simple things simply: zero configuration to completely strip a string of HTML, with the ability to incrementally customize as needed.
 
 [Try it! (demo at codesandbox)](https://codesandbox.io/s/purify-html-6ere1w?file=/src/index.js)
 
