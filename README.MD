@@ -1,6 +1,7 @@
 # purify-html
 
-![size](https://img.shields.io/github/languages/code-size/Aleksandr-JS-Developer/purify-html?style=flat-square)
+![GitHub file size in bytes](https://img.shields.io/github/size/Aleksandr-JS-Developer/purify-html/dist/index.browser.js?label=CDN%20build%20size&style=flat-square)
+![GitHub file size in bytes](https://img.shields.io/github/size/Aleksandr-JS-Developer/purify-html/dist/index.esm.js?label=ESM%20build%20size&style=flat-square)
 ![GitHub issues](https://img.shields.io/github/issues-raw/Aleksandr-JS-Developer/purify-html?style=flat-square)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/Aleksandr-JS-Developer/purify-html?style=flat-square)
 
