@@ -64,8 +64,8 @@ const sanitizer = new PurifyHTML(options);
 
 ```javascript
 setParser({
-  parse(str: string): HTMLElement
-  stringify(elem: HTMLElement): string
+  parse(str: string): Element
+  stringify(elem: Element): string
 }): void
 ```
 
@@ -107,25 +107,25 @@ console.log(
 
 ---
 
-### options: `Array<string | OptionItem>`
+### options: `Array<string | TagRule>`
 
 An array with rules for the sanitizer.
 
 ```typescript
-type OptionItem = {
-  name: string;
-  // tagname
-  attributes: string[] | AttributesItem[];
-  // rules for attributes
-  dontRemoveComments?: boolean;
-}
-
-type AttributesItem {
+export type AttributeRule = {
   name: string;
   // attribute name
-  value: string | string[] | RegExp | { preset: string }
+  value?: string | string[] | RegExp | { preset: string };
   // rules for attribute value
-}
+};
+
+export type TagRule = {
+  name: string;
+  // tagname
+  attributes: AttributeRule[];
+  // rules for attributes
+  dontRemoveComments?: boolean;
+};
 ```
 
 ```javascript
