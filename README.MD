@@ -112,14 +112,14 @@ console.log(
 An array with rules for the sanitizer.
 
 ```typescript
-export type AttributeRule = {
+type AttributeRule = {
   name: string;
   // attribute name
   value?: string | string[] | RegExp | { preset: string };
   // rules for attribute value
 };
 
-export type TagRule = {
+type TagRule = {
   name: string;
   // tagname
   attributes: AttributeRule[];
