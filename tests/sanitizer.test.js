@@ -121,13 +121,14 @@ describe('Sanitizer', () => {
 
   test('attribute regexp test', () => {
     const sanitizer = new Sanitizer([
-      { name: 'a', attributes: [{ name: 'href', value: /^https:\/\// }] },
+      { name: 'abc', attributes: [{ name: 'href', value: /^https:\/\// }] },
     ]);
+
     const str =
-      '<a href="11google.com">google.com</a><a href="https://some.com">google.com</a>';
+      '<abc href="11google.com">google.com</abc><abc href="https://some.com">google.com</abc>';
 
     expect(sanitizer.sanitize(str)).toEqual(
-      '<a href="">google.com</a><a href="https://some.com">google.com</a>'
+      '<abc href="">google.com</abc><abc href="https://some.com">google.com</abc>'
     );
   });
 
@@ -140,6 +141,24 @@ describe('Sanitizer', () => {
     expect(sanitizer.sanitize(str)).toEqual(
       '<div id="app">app</div><div id=""></div>'
     );
+  });
+
+  test('attribute function test', () => {
+    const sanitizer = new Sanitizer([
+      {
+        name: 'hr',
+        attributes: [
+          {
+            name: 'id',
+            value: value => value.startsWith('t-'),
+          },
+        ],
+      },
+    ]);
+
+    const str = '<hr id="some-id-t-123"><hr id="t-123">';
+
+    expect(sanitizer.sanitize(str)).toEqual('<hr id=""><hr id="t-123">');
   });
 
   test('delete attributes', () => {

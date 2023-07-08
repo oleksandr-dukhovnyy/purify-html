@@ -113,14 +113,29 @@ console.log(
 An array with rules for the sanitizer.
 
 ```typescript
-type AttributeRule = {
+type AttributeRulePresetName =
+  | '%correct-link%'
+  | '%http-link%'
+  | '%https-link%'
+  | '%ftp-link%'
+  | '%https-link-without-search-params%'
+  | '%http-link-without-search-params%'
+  | '%same-origin%';
+
+interface AttributeRule = {
   name: string;
   // attribute name
-  value?: string | string[] | RegExp | { preset: string };
+
+  value?:
+    | string
+    | string[]
+    | RegExp
+    | { preset: AttributeRulePresetName }
+    | ((attributeValue: string) => boolean);
   // rules for attribute value
 };
 
-type TagRule = {
+interface TagRule = {
   name: string;
   // tagname
   attributes: AttributeRule[];
@@ -182,6 +197,12 @@ const allowedTags = [
     attributes: [
       { name: 'id', value: ['awesome-strong-id', 'other-awesome-strong-id'] },
     ],
+  },
+
+  // check attribute value (function)
+  {
+    name: 'em',
+    attributes: [{ name: 'id', value: value => value.startsWith('awesome-') }],
   },
 
   // use attributes checks preset

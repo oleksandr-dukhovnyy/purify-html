@@ -131,6 +131,10 @@ export class PurifyHTML {
                   // if rules is string
                   clearList.push(attr.name);
                 }
+              } else if (typeof attributeRules.value === 'function') {
+                if (!attributeRules.value(attr.value)) {
+                  clearList.push(attr.name);
+                }
               } else if (attributeRules.value instanceof RegExp) {
                 // if rules is regexp
                 if (!attributeRules.value.test(attr.value)) {

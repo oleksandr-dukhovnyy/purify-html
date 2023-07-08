@@ -114,14 +114,14 @@ export const addPrefix = (str: string, check: RegExp, prefix: string) =>
  */
 export const deepClone = (item: object | string): object | string => {
   if (typeof item === 'string') return item;
-
-  if (Object.prototype.hasOwnProperty.call(globalThis, 'structuredClone'))
-    return structuredClone(item);
+  if (Array.isArray(item)) return item.map(arrItem => deepClone(arrItem));
 
   const res = {};
 
   for (const key in item) {
-    if (typeof item[key] === 'object') {
+    if (item[key] instanceof RegExp) {
+      res[key] = item[key];
+    } else if (typeof item[key] === 'object') {
       res[key] = deepClone(item[key]);
     } else {
       res[key] = item[key];

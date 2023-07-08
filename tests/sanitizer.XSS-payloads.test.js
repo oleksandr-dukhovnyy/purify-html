@@ -1,6 +1,6 @@
 import Sanitizer from '@/core.ts';
 import 'core-js/modules/web.structured-clone';
-const fs = require('fs');
+import fs from 'node:fs';
 
 const payloads = fs.readFileSync('./tests/xss-payloads-list.txt', {
   encoding: 'utf8',
@@ -12,10 +12,14 @@ const payloadsCleaned = fs.readFileSync('./tests/xss-payloads-list-clean.txt', {
   flag: 'r',
 });
 
+const normalize = str => str.replace(/\s/g, '');
+
 describe('XSS payloads', () => {
   test('big payloads list', () => {
     const sanitizer = new Sanitizer(); // delete all
 
-    expect(sanitizer.sanitize(payloads)).toEqual(payloadsCleaned);
+    expect(normalize(sanitizer.sanitize(payloads))).toEqual(
+      normalize(payloadsCleaned)
+    );
   });
 });

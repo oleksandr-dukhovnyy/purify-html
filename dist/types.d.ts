@@ -1,8 +1,9 @@
+export type AttributeRulePresetName = '%correct-link%' | '%http-link%' | '%https-link%' | '%ftp-link%' | '%https-link-without-search-params%' | '%http-link-without-search-params%' | '%same-origin%';
 export type AttributeRule = {
     name: string;
     value?: string | string[] | RegExp | {
-        preset: string;
-    };
+        preset: AttributeRulePresetName;
+    } | ((attributeValue: string) => boolean);
 };
 export type TagRule = {
     name: string;
