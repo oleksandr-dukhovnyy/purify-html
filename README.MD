@@ -378,5 +378,3 @@ And in the case of using DOMParser, the code does not run.
 Although browser support is already over 97%, the specification for DOMParser is not yet fully established. [More details](https://caniuse.com/mdn-api_domparser_parsefromstring_html).
 
 ![Caniuse](https://caniuse.bitsofco.de/static/v1/mdn-api__DOMParser-1691328548205.jpg)
-
-<iframe src="https://caniuse.bitsofco.de/embed/index.html?feat=mdn-api__DOMParser&amp;periods=current,past_1,past_2,past_3,past_4,past_5&amp;accessible-colours=false&amp;image-base=none" frameborder="0" width="100%" height="477px"></iframe>
