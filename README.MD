@@ -376,3 +376,5 @@ And in the case of using DOMParser, the code does not run.
 ## Browser support
 
 Although browser support is already over 97%, the specification for DOMParser is not yet fully established. [More details](https://caniuse.com/mdn-api_domparser_parsefromstring_html).
+
+![Caniuse](https://caniuse.bitsofco.de/static/v1/mdn-api__DOMParser-1691328548205.jpg)
