@@ -1,5 +1,6 @@
 # purify-html
 
+[![codecov](https://codecov.io/gh/Aleksandr-JS-Developer/purify-html/graph/badge.svg?token=7YL8SOPC9O)](https://codecov.io/gh/Aleksandr-JS-Developer/purify-html)
 ![GitHub file size in bytes](https://img.shields.io/github/size/Aleksandr-JS-Developer/purify-html/dist/index.browser.js?label=CDN%20build%20size&style=flat-square)
 ![GitHub file size in bytes](https://img.shields.io/github/size/Aleksandr-JS-Developer/purify-html/dist/index.esm.js?label=ESM%20build%20size&style=flat-square)
 ![GitHub issues](https://img.shields.io/github/issues-raw/Aleksandr-JS-Developer/purify-html?style=flat-square)
