@@ -10,5 +10,6 @@
   "bracketSameLine": false,
   "arrowParens": "avoid",
   "vueIndentScriptAndStyle": true,
-  "singleAttributePerLine": false
+  "singleAttributePerLine": false,
+  "endOfLine": "crlf"
 }
