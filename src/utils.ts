@@ -112,23 +112,30 @@ export const addPrefix = (str: string, check: RegExp, prefix: string) =>
 /**
  * Deep clone an object
  */
-export const deepClone = (item: object | string): object | string => {
+export const deepClone = <T>(item: T): T => {
   if (typeof item === 'string') return item;
-  if (Array.isArray(item)) return item.map(arrItem => deepClone(arrItem));
+  if (Array.isArray(item))
+    return item.map(arrItem => deepClone(arrItem)) as unknown as T;
 
-  const res = {};
+  if (typeof item === 'object' && item !== null) {
+    const res: Record<string, unknown> = {};
 
-  for (const key in item) {
-    if (item[key] instanceof RegExp) {
-      res[key] = item[key];
-    } else if (typeof item[key] === 'object') {
-      res[key] = deepClone(item[key]);
-    } else {
-      res[key] = item[key];
+    for (const key in item) {
+      if (Object.prototype.hasOwnProperty.call(item, key)) {
+        if (item[key] instanceof RegExp) {
+          res[key] = item[key];
+        } else if (typeof item[key] === 'object') {
+          res[key] = deepClone(item[key]);
+        } else {
+          res[key] = item[key];
+        }
+      }
     }
+
+    return res as T;
   }
 
-  return res;
+  return item;
 };
 
 /**
@@ -137,7 +144,9 @@ export const deepClone = (item: object | string): object | string => {
  * @param {string[] | TagRule[]} config
  * @returns {string[] | TagRule[]} cloned config
  */
-export const copyConfig = (config: any[]): any[] => config.map(deepClone);
+export const copyConfig = (
+  config: (string | TagRule)[]
+): (string | TagRule)[] => config.map(deepClone);
 
 /**
  * @typedef PresetCheckResult
