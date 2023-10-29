@@ -121,14 +121,12 @@ export const deepClone = <T>(item: T): T => {
     const res: Record<string, unknown> = {};
 
     for (const key in item) {
-      if (Object.prototype.hasOwnProperty.call(item, key)) {
-        if (item[key] instanceof RegExp) {
-          res[key] = item[key];
-        } else if (typeof item[key] === 'object') {
-          res[key] = deepClone(item[key]);
-        } else {
-          res[key] = item[key];
-        }
+      if (item[key] instanceof RegExp) {
+        res[key] = item[key];
+      } else if (typeof item[key] === 'object') {
+        res[key] = deepClone(item[key]);
+      } else {
+        res[key] = item[key];
       }
     }
 
