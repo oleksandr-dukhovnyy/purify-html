@@ -95,7 +95,7 @@ describe('Sanitizer', () => {
     expect(sanitizer.sanitize(str)).toEqual('<div id="">div</div>');
   });
 
-  test('attribute uncurrect link', () => {
+  test('attribute incorrect link', () => {
     const sanitizer = new Sanitizer([
       {
         name: 'a',
@@ -210,7 +210,7 @@ describe('Sanitizer', () => {
     expect(sanitizer.sanitize(str)).toEqual('app');
   });
 
-  test('dont remove comments', () => {
+  test('Do not remove comments', () => {
     const sanitizer = new Sanitizer(['#comments']);
     const str = '<div>app</div><!-- <div></div> -->';
 

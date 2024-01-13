@@ -153,13 +153,21 @@ describe('utils', () => {
 
   test('[removeComments]', () => {
     const node = new DOMParser().parseFromString(
-      '<div>content</div><!-- <div>comment</div> -->',
+      [
+        '<div>before comments</div>',
+        '<!-- <div>comment 0</div> -->',
+        '<!-- <div>comment 1</div> -->',
+        '<!-- <div>special end of comment</div> --!>',
+        '<div>after comments</div>',
+      ].join(''),
       'text/html'
     ).body;
 
     utils.removeComments(node);
 
-    expect(/<!--|-->|comment/g.test(node.innerHTML)).toEqual(false);
+    expect(node.innerHTML.trim()).toEqual(
+      '<div>before comments</div><div>after comments</div>'
+    );
   });
 
   test('[removeComments]', () => {
@@ -171,12 +179,14 @@ describe('utils.deepClone', () => {
   it('should return the same string', () => {
     const input = 'Hello, world!';
     const cloned = utils.deepClone(input);
+
     expect(cloned).toBe(input);
   });
 
   it('should clone an array', () => {
     const input = [1, 2, [3, 4]];
     const cloned = utils.deepClone(input);
+
     expect(cloned).toEqual(input);
     expect(cloned).not.toBe(input);
   });
@@ -184,6 +194,7 @@ describe('utils.deepClone', () => {
   it('should clone an object', () => {
     const input = { name: 'John', age: 30 };
     const cloned = utils.deepClone(input);
+
     expect(cloned).toEqual(input);
     expect(cloned).not.toBe(input);
   });
@@ -191,6 +202,7 @@ describe('utils.deepClone', () => {
   it('should handle RegExp objects', () => {
     const input = { pattern: /test/i };
     const cloned = utils.deepClone(input);
+
     expect(cloned).toEqual(input);
     expect(cloned).not.toBe(input);
   });
@@ -198,6 +210,7 @@ describe('utils.deepClone', () => {
   it('should handle nested objects and arrays', () => {
     const input = { numbers: [1, 2, 3], person: { name: 'Alice' } };
     const cloned = utils.deepClone(input);
+
     expect(cloned).toEqual(input);
     expect(cloned).not.toBe(input);
   });
@@ -205,10 +218,12 @@ describe('utils.deepClone', () => {
   it('should return the same value for null or other types', () => {
     const input = null;
     const cloned = utils.deepClone(input);
+
     expect(cloned).toBe(input);
 
     const numberInput = 42;
     const numberCloned = utils.deepClone(numberInput);
+
     expect(numberCloned).toBe(numberInput);
   });
 

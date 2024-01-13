@@ -22,9 +22,9 @@ export const removeAttributeValue = (node: Element, attributeName: string) =>
 export const removeComments = (node: Element): undefined | false => {
   if ('childNodes' in node) {
     for (
-      let childIndex = 0;
-      childIndex < node.childNodes.length;
-      childIndex++
+      let childIndex = node.childNodes.length - 1;
+      childIndex > 0;
+      childIndex--
     ) {
       if (node.childNodes[childIndex].nodeType === 8) {
         node.childNodes[childIndex].remove();

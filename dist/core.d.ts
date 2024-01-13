@@ -11,7 +11,9 @@ export declare class PurifyHTML {
      * Is need to remove comments in root and in all nodes by default
      */
     protected removeComments: boolean;
-    protected allowedTags: TagRule[];
+    protected allowedTags: {
+        [key: string]: TagRule;
+    };
     protected whiteList: string[];
     constructor(allowedTags?: TagRule[] | string[]);
     /**

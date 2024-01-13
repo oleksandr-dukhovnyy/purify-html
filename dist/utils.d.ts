@@ -34,14 +34,14 @@ export declare const addPrefix: (str: string, check: RegExp, prefix: string) => 
 /**
  * Deep clone an object
  */
-export declare const deepClone: (item: object | string) => object | string;
+export declare const deepClone: <T>(item: T) => T;
 /**
  * Create clone of config for safe mutations
  *
  * @param {string[] | TagRule[]} config
  * @returns {string[] | TagRule[]} cloned config
  */
-export declare const copyConfig: (config: any[]) => any[];
+export declare const copyConfig: (config: (string | TagRule)[]) => (string | TagRule)[];
 /**
  * @typedef PresetCheckResult
  * @type {object}
