@@ -8,23 +8,10 @@ import {
   getSortedByMaxChildDeep,
   copyConfig,
   removeComments,
+  getDefaultParser,
 } from './utils';
 
-let parser: HTMLParser = ((): HTMLParser => {
-  const elem: Element = new DOMParser()
-    .parseFromString('', 'text/html')
-    .querySelector('body');
-
-  return {
-    parse(string: string): Element {
-      elem.innerHTML = string;
-      return elem;
-    },
-    stringify(elem: Element): string {
-      return elem.innerHTML;
-    },
-  };
-})();
+let parser: HTMLParser | undefined;
 
 /**
  * Purify instance.
@@ -42,6 +29,11 @@ export class PurifyHTML {
   protected whiteList: string[];
 
   constructor(allowedTags: TagRule[] | string[] = []) {
+    // setup default parser
+    if (!parser) {
+      parser = getDefaultParser();
+    }
+
     /**
      * Copy and compile a rules
      */

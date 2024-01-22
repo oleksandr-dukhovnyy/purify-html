@@ -41,7 +41,7 @@ yarn add purify-html
 CDN
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/purify-html/dist/index.browser.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/purify-html/dist/index.es.js"></script>
 
 <!-- or -->
 
@@ -256,7 +256,7 @@ console.log(safeString);
 <!-- ... -->
 <head>
   <!-- ... -->
-  <script src="https://unpkg.com/purify-html@latest/dist/index.browser.js"></script>
+  <script src="https://unpkg.com/purify-html@latest/dist/index.es.js"></script>
 </head>
 
 <!-- ... -->
@@ -304,6 +304,46 @@ const rules = ['#comments', { name: 'div', dontRemoveComments: true }];
 const sanitizer = new PurifyHTML(rules);
 
 sanitizer.sanitize(/* ... */);
+```
+
+## node-js
+
+When used in an environment where the standard DOMParser is absent, you need to install a parser manually.
+
+For example:
+
+```js
+import { JSDOM } from 'jsdom';
+global.DOMParser = new JSDOM().window.DOMParser;
+
+import PurifyHTML from 'purify-html';
+const sanitizer = new PurifyHTML(); // works
+```
+
+Or
+
+```js
+import { JSDOM } from 'jsdom';
+import PurifyHTML, { setParser } from 'purify-html';
+
+// Scope elem variable, reuse DOMParser instance for performance
+{
+  const elem: Element = new DOMParser()
+    .parseFromString('', 'text/html')
+    .querySelector('body');
+
+  // Set methods
+  setParser({
+    parse(string: string): Element {
+      elem.innerHTML = string;
+
+      return elem;
+    },
+    stringify(elem: Element): string {
+      return elem.innerHTML;
+    },
+  });
+}
 ```
 
 ## setParser

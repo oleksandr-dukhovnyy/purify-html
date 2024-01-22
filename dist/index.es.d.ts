@@ -1,4 +1,4 @@
 import { PurifyHTML, setParser } from './core';
-export { setParser };
+export { setParser, PurifyHTML as sanitizer };
 export default PurifyHTML;
 //# sourceMappingURL=index.esm.d.ts.map
