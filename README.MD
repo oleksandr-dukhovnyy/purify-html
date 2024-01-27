@@ -114,6 +114,7 @@ console.log(
 An array with rules for the sanitizer.
 
 ```typescript
+// Deprecated!
 type AttributeRulePresetName =
   | '%correct-link%'
   | '%http-link%'
@@ -124,24 +125,50 @@ type AttributeRulePresetName =
   | '%same-origin%';
 
 interface AttributeRule = {
-  name: string;
   // attribute name
+  name: string;
 
+  // rules for attribute value
   value?:
     | string
     | string[]
     | RegExp
-    | { preset: AttributeRulePresetName }
+    | { preset: AttributeRulePresetName } // Deprecated!
     | ((attributeValue: string) => boolean);
-  // rules for attribute value
+
 };
 
 interface TagRule = {
-  name: string;
   // tagname
-  attributes: AttributeRule[];
+  name: string;
+
   // rules for attributes
+  attributes: AttributeRule[];
+
+  // Don't remove comments in THIS node.
+  // Comments in children nodes will be saved
   dontRemoveComments?: boolean;
+  /*
+    Example:
+
+    Config
+    [
+      { name: 'div', dontRemoveComments: true },
+      'span'
+    ]
+
+    Input:
+    <div>
+      <!-- comment 0 -->
+      <span> <!-- comment 1 --> </span>
+    </div>
+
+    Output:
+    <div>
+      <!-- comment 0 -->
+      <span>  </span>
+    </div>
+  */
 };
 ```
 
@@ -206,10 +233,10 @@ const allowedTags = [
     attributes: [{ name: 'id', value: value => value.startsWith('awesome-') }],
   },
 
-  // use attributes checks preset
+  // use attributes checks preset (Deprecated)
   {
     name: 'a',
-    attributes: [{ name: 'href', value: { preset: '%https-link%' } }],
+    attributes: [{ name: 'href', value: { preset: '%https-link%' } }], // presets are deprecated
   },
 ];
 
@@ -379,3 +406,7 @@ And in the case of using DOMParser, the code does not run.
 Although browser support is already over 97%, the specification for DOMParser is not yet fully established. [More details](https://caniuse.com/mdn-api_domparser_parsefromstring_html).
 
 ![Caniuse](https://caniuse.bitsofco.de/static/v1/mdn-api__DOMParser-1691328548205.jpg)
+
+---
+
+If you find this project helpful, please give it a ⭐️ on GitHub to show your support. I would also appreciate it if you shared it with others who might find it useful!
