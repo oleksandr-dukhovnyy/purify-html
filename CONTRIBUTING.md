@@ -12,7 +12,7 @@ The algorithm for making a contribution is somewhat different, depending on the 
 
 ## PR aimed at fixing vulnerabilities.
 
-Follow the link `https://github.com/Aleksandr-JS-Developer/purify-html/security/advisories/new` and fill out the form. If you are not sure how to fill out the form - just write what you can. Please allow time for correction (or correct it yourself) before posting any information publicly.
+Follow the link `https://github.com/oleksandr-dukhovnyy/purify-html/security/advisories/new` and fill out the form. If you are not sure how to fill out the form - just write what you can. Please allow time for correction (or correct it yourself) before posting any information publicly.
 
 ## PR aimed at adding new functionality.
 
@@ -41,9 +41,8 @@ First - create fork.
 Second - download project & install depends
 
 ```bash
-mkdir purify-html
+git clone <fork-repo>
 cd purify-html
-git clone <fork-repo> .
 npm install
 npm run test
 ```

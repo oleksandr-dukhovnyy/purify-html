@@ -4,7 +4,31 @@ import {
   TagRule,
   presetTestResult,
   MarkedElement,
+  HTMLParser,
 } from './types';
+
+/**
+ * Setup default parser
+ */
+export const getDefaultParser = (): HTMLParser => {
+  if (globalThis.DOMParser === undefined) {
+    throw 'globalThis.DOMParser is not defined!\nIt seems that you use purify-html in node environment.\nFor node environment you need to add HTML parser by yourself.\nSee https://github.com/oleksandr-dukhovnyy/purify-html?tab=readme-ov-file#node-js for details.';
+  }
+
+  const elem: Element = new DOMParser()
+    .parseFromString('', 'text/html')
+    .querySelector('body');
+
+  return {
+    parse(string: string): Element {
+      elem.innerHTML = string;
+      return elem;
+    },
+    stringify(elem: Element): string {
+      return elem.innerHTML;
+    },
+  };
+};
 
 /**
  * Remove attribute value, but dont remove attribute.
@@ -153,7 +177,7 @@ export const copyConfig = (
  */
 
 /**
- * Interface for pressets.
+ * Interface for presets.
  *
  * @interface
  */
@@ -162,6 +186,10 @@ export const valuesPresets = {
    * Check is str a correct link
    */
   '%correct-link%'(str: string): presetTestResult {
+    console.warn(
+      'Default presets is deprecated and will be removed in 2.0.0. See release notes for v1.5.4'
+    );
+
     return {
       remove: safelyGetLink(str) === null,
     };
@@ -171,6 +199,10 @@ export const valuesPresets = {
    * Check is str a correct link and has HTTP protocol
    */
   '%http-link%'(str: string): presetTestResult {
+    console.warn(
+      'Default presets is deprecated and will be removed in 2.0.0. See release notes for v1.5.4'
+    );
+
     const url = safelyGetLink(str);
 
     return {
@@ -182,6 +214,10 @@ export const valuesPresets = {
    * Check is str a correct link and has HTTPS protocol
    */
   '%https-link%'(str: string): presetTestResult {
+    console.warn(
+      'Default presets is deprecated and will be removed in 2.0.0. See release notes for v1.5.4'
+    );
+
     const url = safelyGetLink(str);
 
     return {
@@ -193,6 +229,10 @@ export const valuesPresets = {
    * Check is str a correct link and has FTP protocol
    */
   '%ftp-link%'(str: string): presetTestResult {
+    console.warn(
+      'Default presets is deprecated and will be removed in 2.0.0. See release notes for v1.5.4'
+    );
+
     const url = safelyGetLink(str);
 
     return {
@@ -206,6 +246,10 @@ export const valuesPresets = {
    * @function
    */
   '%https-link-without-search-params%'(str: string): presetTestResult {
+    console.warn(
+      'Default presets is deprecated and will be removed in 2.0.0. See release notes for v1.5.4'
+    );
+
     const url = safelyGetLink(str);
 
     return {
@@ -217,6 +261,10 @@ export const valuesPresets = {
    * Check is str a correct link and has HTTP protocol and does not have a params
    */
   '%http-link-without-search-params%'(str: string): presetTestResult {
+    console.warn(
+      'Default presets is deprecated and will be removed in 2.0.0. See release notes for v1.5.4'
+    );
+
     const url = safelyGetLink(str);
 
     return {
@@ -228,6 +276,10 @@ export const valuesPresets = {
    * Check is str a correct link and has same origin with current `location.origin`
    */
   '%same-origin%'(str: string): presetTestResult {
+    console.warn(
+      'Default presets is deprecated and will be removed in 2.0.0. See release notes for v1.5.4'
+    );
+
     const url = safelyGetLink(str);
 
     return {

@@ -1,4 +1,5 @@
 import * as utils from '@/utils.ts';
+import PurifyHTML from '@/index.esm';
 
 describe('utils', () => {
   test('removeAttributeValue', () => {
@@ -172,6 +173,13 @@ describe('utils', () => {
 
   test('[removeComments]', () => {
     expect(utils.removeComments({})).toEqual(false);
+  });
+
+  test('globalThis.DOMParser === undefined', () => {
+    expect(() => {
+      globalThis.DOMParser = undefined;
+      new PurifyHTML();
+    }).toThrow();
   });
 });
 

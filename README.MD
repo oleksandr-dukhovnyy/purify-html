@@ -1,10 +1,10 @@
 # purify-html
 
-[![codecov](https://codecov.io/gh/Aleksandr-JS-Developer/purify-html/graph/badge.svg?token=7YL8SOPC9O)](https://codecov.io/gh/Aleksandr-JS-Developer/purify-html)
-![GitHub file size in bytes](https://img.shields.io/github/size/Aleksandr-JS-Developer/purify-html/dist/index.browser.js?label=CDN%20build%20size&style=flat-square)
-![GitHub file size in bytes](https://img.shields.io/github/size/Aleksandr-JS-Developer/purify-html/dist/index.esm.js?label=ESM%20build%20size&style=flat-square)
-![GitHub issues](https://img.shields.io/github/issues-raw/Aleksandr-JS-Developer/purify-html?style=flat-square)
-![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/Aleksandr-JS-Developer/purify-html?style=flat-square)
+[![codecov](https://codecov.io/gh/oleksandr-dukhovnyy/purify-html/graph/badge.svg?token=7YL8SOPC9O)](https://codecov.io/gh/oleksandr-dukhovnyy/purify-html)
+![GitHub file size in bytes](https://img.shields.io/github/size/oleksandr-dukhovnyy/purify-html/dist/index.browser.js?label=CDN%20build%20size&style=flat-square)
+![GitHub file size in bytes](https://img.shields.io/github/size/oleksandr-dukhovnyy/purify-html/dist/index.esm.js?label=ESM%20build%20size&style=flat-square)
+![GitHub issues](https://img.shields.io/github/issues-raw/oleksandr-dukhovnyy/purify-html?style=flat-square)
+![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/oleksandr-dukhovnyy/purify-html?style=flat-square)
 
 A minimalist client library for cleaning up strings so they can be safely used as HTML.
 
@@ -41,7 +41,7 @@ yarn add purify-html
 CDN
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/purify-html/dist/index.browser.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/purify-html/dist/index.es.js"></script>
 
 <!-- or -->
 
@@ -283,7 +283,7 @@ console.log(safeString);
 <!-- ... -->
 <head>
   <!-- ... -->
-  <script src="https://unpkg.com/purify-html@latest/dist/index.browser.js"></script>
+  <script src="https://unpkg.com/purify-html@latest/dist/index.es.js"></script>
 </head>
 
 <!-- ... -->
@@ -331,6 +331,46 @@ const rules = ['#comments', { name: 'div', dontRemoveComments: true }];
 const sanitizer = new PurifyHTML(rules);
 
 sanitizer.sanitize(/* ... */);
+```
+
+## node-js
+
+When used in an environment where the standard DOMParser is absent, you need to install a parser manually.
+
+For example:
+
+```js
+import { JSDOM } from 'jsdom';
+global.DOMParser = new JSDOM().window.DOMParser;
+
+import PurifyHTML from 'purify-html';
+const sanitizer = new PurifyHTML(); // works
+```
+
+Or
+
+```js
+import { JSDOM } from 'jsdom';
+import PurifyHTML, { setParser } from 'purify-html';
+
+// Scope elem variable, reuse DOMParser instance for performance
+{
+  const elem: Element = new DOMParser()
+    .parseFromString('', 'text/html')
+    .querySelector('body');
+
+  // Set methods
+  setParser({
+    parse(string: string): Element {
+      elem.innerHTML = string;
+
+      return elem;
+    },
+    stringify(elem: Element): string {
+      return elem.innerHTML;
+    },
+  });
+}
 ```
 
 ## setParser

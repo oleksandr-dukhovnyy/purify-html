@@ -1,5 +1,9 @@
 /** @module utils */
-import { TagRule, presetTestResult } from './types';
+import { TagRule, presetTestResult, HTMLParser } from './types';
+/**
+ * Setup default parser
+ */
+export declare const getDefaultParser: () => HTMLParser;
 /**
  * Remove attribute value, but dont remove attribute.
  */
@@ -48,7 +52,7 @@ export declare const copyConfig: (config: (string | TagRule)[]) => (string | Tag
  * @property {boolean} remove if true - attribute value is incorrect
  */
 /**
- * Interface for pressets.
+ * Interface for presets.
  *
  * @interface
  */

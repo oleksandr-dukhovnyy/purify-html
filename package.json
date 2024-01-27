@@ -4,31 +4,26 @@
   "description": "A minimalistic library for sanitizing strings so that they can be safely used as HTML.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Aleksandr-JS-Developer/purify-html.git"
+    "url": "git+https://github.com/oleksandr-dukhovnyy/purify-html.git"
   },
-  "jsdelivr": "dist/index.browser.js",
-  "unpkg": "dist/index.browser.js",
+  "jsdelivr": "dist/index.umd",
+  "unpkg": "dist/index.umd",
+  "type": "module",
   "files": [
     "dist/**"
   ],
-  "main": "./dist/index.esm.js",
+  "main": "./dist/index.es",
   "keywords": [
     "html-sanitize",
     "sanitize"
   ],
   "bugs": {
-    "url": "https://github.com/Aleksandr-JS-Developer/purify-html/issues"
+    "url": "https://github.com/oleksandr-dukhovnyy/purify-html/issues"
   },
-  "homepage": "https://github.com/Aleksandr-JS-Developer/purify-html#readme",
+  "homepage": "https://github.com/oleksandr-dukhovnyy/purify-html#readme",
   "scripts": {
-    "dev-esm-watch": "npm run dev-esm -- --watch",
-    "dev-browser-watch": "npm run dev-browser -- --watch",
-    "dev-esm": "webpack --mode=development --config=./webpack.config.for-esm.js",
-    "dev-browser": "webpack --mode=development --config=./webpack.config.for-browser.js",
-    "dev": "npm run dev-esm && npm run dev-browser",
-    "build-esm": "webpack --mode=production --config=./webpack.config.for-esm.js",
-    "build-browser": "webpack --mode=production --config=./webpack.config.for-browser.js",
-    "build": "npm run build-esm && npm run build-browser",
+    "dev": "vite",
+    "build": "vite build",
     "prettier": "npx prettier --write .",
     "prettier-watch": "onchange \"**/*\" -- prettier --write --ignore-unknown {{changed}}",
     "test-watch": "jest --watchAll",
@@ -39,7 +34,7 @@
     "prepare": "husky install",
     "types": "tsc"
   },
-  "author": "alex-js-dev",
+  "author": "Oleksandr Dukhovnyy <script@vip-person.net> (https://github.com/oleksandr-dukhovnyy)",
   "license": "MIT",
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.19.6",
@@ -56,13 +51,15 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.9.0",
     "husky": "^8.0.3",
-    "jest": "^29.3.1",
+    "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.3.1",
     "lint-staged": "^13.1.2",
     "onchange": "^7.1.0",
     "prettier": "2.7.1",
     "ts-loader": "^9.4.2",
     "typescript": "^5.0.4",
+    "vite": "^5.0.12",
+    "vite-plugin-dts": "^3.7.1",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0"
   },
