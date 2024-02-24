@@ -25,7 +25,7 @@ export default defineConfig({
       fileName: format => `index.${format}.js`,
     },
     sourcemap: true,
-    target: 'esnext',
+    target: 'es6',
     minify: true,
   },
 });

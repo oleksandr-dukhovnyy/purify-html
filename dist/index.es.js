@@ -1,4 +1,7 @@
-const y = () => {
+var w = Object.defineProperty;
+var g = (e, t, r) => t in e ? w(e, t, { enumerable: !0, configurable: !0, writable: !0, value: r }) : e[t] = r;
+var h = (e, t, r) => (g(e, typeof t != "symbol" ? t + "" : t, r), r);
+const O = () => {
   if (globalThis.DOMParser === void 0)
     throw `globalThis.DOMParser is not defined!
 It seems that you use purify-html in node environment.
@@ -13,13 +16,13 @@ See https://github.com/oleksandr-dukhovnyy/purify-html?tab=readme-ov-file#node-j
       return t.innerHTML;
     }
   };
-}, w = (e, t) => e.setAttribute(t, ""), h = (e) => {
+}, j = (e, t) => e.setAttribute(t, ""), d = (e) => {
   if ("childNodes" in e)
     for (let t = e.childNodes.length - 1; t > 0; t--)
       e.childNodes[t].nodeType === 8 && e.childNodes[t].remove();
   else
     return !1;
-}, g = /* @__PURE__ */ (() => {
+}, L = /* @__PURE__ */ (() => {
   const e = (t, r = 0) => {
     if (t._d = r, t.children.length)
       [...t.children].forEach((a) => e(a, r + 1));
@@ -27,7 +30,7 @@ See https://github.com/oleksandr-dukhovnyy/purify-html?tab=readme-ov-file#node-j
       return r;
   };
   return (t) => (e(t), [...t.querySelectorAll("*")].sort((r, a) => a._d - r._d).map((r) => (delete r._d, r)));
-})(), O = (e) => {
+})(), k = (e) => {
   const t = [];
   return Object.prototype.hasOwnProperty.call(e, "attributes") || (e.attributes = []), e.attributes.forEach((r) => {
     switch (typeof r) {
@@ -42,22 +45,22 @@ See https://github.com/oleksandr-dukhovnyy/purify-html?tab=readme-ov-file#node-j
 }, u = (e) => {
   try {
     return new URL(e);
-  } catch {
+  } catch (t) {
     return null;
   }
-}, d = (e) => {
+}, m = (e) => {
   if (typeof e == "string")
     return e;
   if (Array.isArray(e))
-    return e.map((t) => d(t));
+    return e.map((t) => m(t));
   if (typeof e == "object" && e !== null) {
     const t = {};
     for (const r in e)
-      e[r] instanceof RegExp ? t[r] = e[r] : typeof e[r] == "object" ? t[r] = d(e[r]) : t[r] = e[r];
+      e[r] instanceof RegExp ? t[r] = e[r] : typeof e[r] == "object" ? t[r] = m(e[r]) : t[r] = e[r];
     return t;
   }
   return e;
-}, j = (e) => e.map(d), b = {
+}, T = (e) => e.map(m), y = {
   /**
    * Check is str a correct link
    */
@@ -144,18 +147,18 @@ See https://github.com/oleksandr-dukhovnyy/purify-html?tab=readme-ov-file#node-j
   }
 };
 let p;
-class L {
-  /**
-   * Create PurifyHTML instance
-   */
-  /**
-   * Is need to remove comments in root and in all nodes by default
-   */
-  removeComments = !0;
-  allowedTags = {};
-  whiteList;
+class D {
   constructor(t = []) {
-    p || (p = y()), this.allowedTags = j(t).reduce(
+    /**
+     * Create PurifyHTML instance
+     */
+    /**
+     * Is need to remove comments in root and in all nodes by default
+     */
+    h(this, "removeComments", !0);
+    h(this, "allowedTags", {});
+    h(this, "whiteList");
+    p || (p = O()), this.allowedTags = T(t).reduce(
       (r, a) => {
         switch (typeof a) {
           case "string": {
@@ -165,7 +168,7 @@ class L {
           case "object":
             r[a.name] = Object.assign(
               r[a.name] || {},
-              O(a)
+              k(a)
             );
         }
         return r;
@@ -180,28 +183,28 @@ class L {
    */
   sanitize(t) {
     const r = p.parse(t);
-    return this.removeComments && h(r), g(r).forEach((l) => {
-      const m = l.tagName.toLowerCase();
-      if (this.whiteList.includes(m)) {
-        const f = this.allowedTags[m];
-        if (this.removeComments && f.dontRemoveComments !== !0 && h(l), Object.prototype.hasOwnProperty.call(f, "attributes") && f.attributes.length > 0) {
+    return this.removeComments && d(r), L(r).forEach((l) => {
+      const v = l.tagName.toLowerCase();
+      if (this.whiteList.includes(v)) {
+        const f = this.allowedTags[v];
+        if (this.removeComments && f.dontRemoveComments !== !0 && d(l), Object.prototype.hasOwnProperty.call(f, "attributes") && f.attributes.length > 0) {
           const c = [], s = [];
           for (let i = 0; i < l.attributes.length; i++) {
             const n = l.attributes[i], o = f.attributes.find(
-              (v) => v.name === n.name
+              (b) => b.name === n.name
             );
             o ? Object.prototype.hasOwnProperty.call(o, "value") && (typeof o.value == "string" ? n.value !== o.value && s.push(n.name) : typeof o.value == "function" ? o.value(n.value) || s.push(n.name) : o.value instanceof RegExp ? o.value.test(n.value) || s.push(n.name) : Array.isArray(o.value) ? o.value.includes(n.value) || s.push(n.name) : typeof o.value == "object" && Object.prototype.hasOwnProperty.call(
               o.value,
               "preset"
             ) && Object.prototype.hasOwnProperty.call(
-              b,
+              y,
               o.value.preset
-            ) ? b[o.value.preset](n.value).remove && s.push(n.name) : s.push(n.name)) : c.push(n.name);
+            ) ? y[o.value.preset](n.value).remove && s.push(n.name) : s.push(n.name)) : c.push(n.name);
           }
           c.forEach(
             (i) => l.removeAttribute(i)
           ), s.forEach(
-            (i) => w(l, i)
+            (i) => j(l, i)
           );
         } else {
           const c = [];
@@ -212,7 +215,7 @@ class L {
           );
         }
       } else
-        this.removeComments && h(l), l.insertAdjacentHTML("afterend", l.innerHTML), l.remove();
+        this.removeComments && d(l), l.insertAdjacentHTML("afterend", l.innerHTML), l.remove();
     }), p.stringify(r);
   }
   /**
@@ -222,7 +225,7 @@ class L {
     return t.split("").map((r) => `&#${r.charCodeAt(0)};`).join("");
   }
 }
-const k = (e) => e ? Object.prototype.hasOwnProperty.call(e, "parse") ? Object.prototype.hasOwnProperty.call(e, "stringify") ? (p = e, 1) : (console.error(
+const A = (e) => e ? Object.prototype.hasOwnProperty.call(e, "parse") ? Object.prototype.hasOwnProperty.call(e, "stringify") ? (p = e, 1) : (console.error(
   'cannot to find method "stringify" in custom parser!',
   e
 ), 0) : (console.error(
@@ -230,8 +233,8 @@ const k = (e) => e ? Object.prototype.hasOwnProperty.call(e, "parse") ? Object.p
   e
 ), 0) : (console.error("customParser is null!"), 0);
 export {
-  L as default,
-  L as sanitizer,
-  k as setParser
+  D as default,
+  D as sanitizer,
+  A as setParser
 };
 //# sourceMappingURL=index.es.js.map
