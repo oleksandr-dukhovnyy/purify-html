@@ -9,6 +9,7 @@ import {
   copyConfig,
   removeComments,
   getDefaultParser,
+  presetsDeprecationAlert,
 } from './utils';
 
 let parser: HTMLParser | undefined;
@@ -78,6 +79,8 @@ export class PurifyHTML {
    * @return {string} A string cleared according to the rules from this.allowedTags.
    */
   public sanitize(str: string): string {
+    // TODO: split to methods
+
     const wrapper: Element = parser.parse(str);
 
     if (this.removeComments) {
@@ -145,6 +148,8 @@ export class PurifyHTML {
                   )
                 ) {
                   // if rules is preset
+
+                  presetsDeprecationAlert();
 
                   if (
                     Object.prototype.hasOwnProperty.call(

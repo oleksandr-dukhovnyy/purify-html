@@ -308,6 +308,9 @@ For example the line: `<!-- <img src="x" onerror="alert(1)"> -->`.
 
 Technically, inserting it into the DOM will not lead to code execution, but it cannot be considered safe either. The result of the `sanitize` method is declared to be sanitized using the rules specified when the sanitizer was initialized.
 
+> **NOTE**<br>
+> CDATA comments (or CDATA **sections**), although made for XML, are also supported in HTML. In `purify-html` they are treated as **regular HTML comments**.<br> See more about [CDATA Section on MDN](https://developer.mozilla.org/en-US/docs/Web/API/CDATASection)
+
 Therefore, you are given the opportunity to control in which places you will leave comments, and in which not.
 
 ### API

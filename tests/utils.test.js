@@ -159,6 +159,9 @@ describe('utils', () => {
         '<!-- <div>comment 0</div> -->',
         '<!-- <div>comment 1</div> -->',
         '<!-- <div>special end of comment</div> --!>',
+        '<div>inside comments</div>',
+        '<![CDATA[<div>div</div>con<span></span>tent ]]>',
+        '<![CDATA[test]]>',
         '<div>after comments</div>',
       ].join(''),
       'text/html'
@@ -167,7 +170,12 @@ describe('utils', () => {
     utils.removeComments(node);
 
     expect(node.innerHTML.trim()).toEqual(
-      '<div>before comments</div><div>after comments</div>'
+      [
+        '<div>before comments</div>',
+        '<div>inside comments</div>',
+        'divcon<span></span>tent ]]&gt;',
+        '<div>after comments</div>',
+      ].join('')
     );
   });
 
