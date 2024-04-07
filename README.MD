@@ -1,8 +1,6 @@
 # purify-html
 
 [![codecov](https://codecov.io/gh/oleksandr-dukhovnyy/purify-html/graph/badge.svg?token=7YL8SOPC9O)](https://codecov.io/gh/oleksandr-dukhovnyy/purify-html)
-![GitHub file size in bytes](https://img.shields.io/github/size/oleksandr-dukhovnyy/purify-html/dist/index.browser.js?label=CDN%20build%20size&style=flat-square)
-![GitHub file size in bytes](https://img.shields.io/github/size/oleksandr-dukhovnyy/purify-html/dist/index.esm.js?label=ESM%20build%20size&style=flat-square)
 ![GitHub issues](https://img.shields.io/github/issues-raw/oleksandr-dukhovnyy/purify-html?style=flat-square)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/oleksandr-dukhovnyy/purify-html?style=flat-square)
 
