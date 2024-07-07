@@ -51,11 +51,6 @@ export declare const copyConfig: (config: (string | TagRule)[]) => (string | Tag
  * @type {object}
  * @property {boolean} remove if true - attribute value is incorrect
  */
-/**
- * Interface for presets.
- *
- * @interface
- */
 export declare const valuesPresets: {
     /**
      * Check is str a correct link
@@ -88,4 +83,5 @@ export declare const valuesPresets: {
      */
     '%same-origin%'(str: string): presetTestResult;
 };
+export declare function presetsDeprecationAlert(): void;
 //# sourceMappingURL=utils.d.ts.map
