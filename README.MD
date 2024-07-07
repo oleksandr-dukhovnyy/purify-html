@@ -1,8 +1,6 @@
 # purify-html
 
 [![codecov](https://codecov.io/gh/oleksandr-dukhovnyy/purify-html/graph/badge.svg?token=7YL8SOPC9O)](https://codecov.io/gh/oleksandr-dukhovnyy/purify-html)
-![GitHub file size in bytes](https://img.shields.io/github/size/oleksandr-dukhovnyy/purify-html/dist/index.browser.js?label=CDN%20build%20size&style=flat-square)
-![GitHub file size in bytes](https://img.shields.io/github/size/oleksandr-dukhovnyy/purify-html/dist/index.esm.js?label=ESM%20build%20size&style=flat-square)
 ![GitHub issues](https://img.shields.io/github/issues-raw/oleksandr-dukhovnyy/purify-html?style=flat-square)
 ![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/oleksandr-dukhovnyy/purify-html?style=flat-square)
 
@@ -307,6 +305,9 @@ Usage for the browser is slightly different from usage with faucets. This is bad
 For example the line: `<!-- <img src="x" onerror="alert(1)"> -->`.
 
 Technically, inserting it into the DOM will not lead to code execution, but it cannot be considered safe either. The result of the `sanitize` method is declared to be sanitized using the rules specified when the sanitizer was initialized.
+
+> **NOTE**<br>
+> CDATA comments (or CDATA **sections**), although made for XML, are also supported in HTML. In `purify-html` they are treated as **regular HTML comments**.<br> See more about [CDATA Section on MDN](https://developer.mozilla.org/en-US/docs/Web/API/CDATASection)
 
 Therefore, you are given the opportunity to control in which places you will leave comments, and in which not.
 

@@ -229,6 +229,22 @@ describe('Sanitizer', () => {
     );
   });
 
+  test('remove CDATA comments (root)', () => {
+    const sanitizer = new Sanitizer();
+
+    const str = '<![CDATA[<div>div</div>con<span></span>tent ]]>';
+
+    expect(sanitizer.sanitize(str)).toEqual('divcontent ]]&gt;');
+  });
+
+  test('remove CDATA comments (children)', () => {
+    const sanitizer = new Sanitizer();
+
+    const str = '<div><![CDATA[<div>div</div>con<span></span>tent ]]></div>';
+
+    expect(sanitizer.sanitize(str)).toEqual('divcontent ]]&gt;');
+  });
+
   test('toHTMLEntities', () => {
     const sanitizer = new Sanitizer();
     const str = [
