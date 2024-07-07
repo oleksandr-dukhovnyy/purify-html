@@ -1,4 +1,4 @@
-name: Codecov
+name: Tests
 
 on:
   push:
@@ -9,9 +9,8 @@ on:
       - main
 
 jobs:
-  codecov:
+  test:
     runs-on: ubuntu-latest
-    needs: test
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -21,14 +20,15 @@ jobs:
         with:
           node-version: 20
 
-      - name: Download test results
-        uses: actions/download-artifact@v2
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests and generate coverage report
+        run: npm run test -- --coverage
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v2
         with:
           name: test-results
           path: coverage/
 
-      - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: coverage/*.json # or the appropriate path to your coverage files
